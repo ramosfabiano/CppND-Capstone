@@ -77,8 +77,8 @@ bla bla bla....
 These are the rubric items addressed by this project:
 
 * README
-- [x] [A README with instructions is included with the project.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md)
-- [x] [The README indicates which project is chosen.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#L05)
+- [x] [A README with instructions is included with the project.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#cppnd-capstone-project---minimal-http-server)
+- [x] [The README indicates which project is chosen.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#cppnd-capstone-project---minimal-http-server)
 - [x] [The README includes information about each rubric point addressed.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#project-rubric)
 
 * Compiling and Testing
