@@ -1,8 +1,8 @@
-# CppND Capstone Project - Minimal HTTP Server
+# CppND Capstone Project - Simple HTTP Server
 
 This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
 
-In order to exercise the skills learned during the course, I have decided to implement a minimalistic HTTP server.  Such application provides a good framework for showcasing the OOP, Memory Management and Concurrency topics explored throughout the course.
+In order to exercise the skills learned during the course, I have decided to implement a basic HTTP server.  Such application provides a good framework for showcasing the OOP, Memory Management and Concurrency topics explored throughout the course.
 
 ## Overview
 
