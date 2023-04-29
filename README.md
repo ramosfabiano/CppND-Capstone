@@ -25,28 +25,28 @@ The project was developed/tested on Debian Bullseye and Arch Linux, but it shoul
   * Debian: `sudo apt install cmake`
   * Arch: `sudo pacman -S cmake`
 * make >= 4.3 
- * Debian: `sudo apt install make`
- * Arch: `sudo pacman -S make`
+  * Debian: `sudo apt install make`
+  * Arch: `sudo pacman -S make`
 * gcc/g++ >= 10.2
- * Debian: `sudo apt install g++`
- * Arch: `sudo pacman -S gcc`
+  * Debian: `sudo apt install g++`
+  * Arch: `sudo pacman -S gcc`
 * Optional:
- * clang-format >= 11.0.1
-  * Debian: `sudo apt install clang-format`
+  * clang-format >= 11.0.1
+    * Debian: `sudo apt install clang-format`
   * Arch: `sudo pacman -S clang`
- * clang-tidy >= 11.0.1
-  * Debian: `sudo apt install clang-tidy`
-  * Arch: `sudo pacman -S clang`
+  * clang-tidy >= 11.0.1
+    * Debian: `sudo apt install clang-tidy`
+    * Arch: `sudo pacman -S clang`
   
 ## Basic Build Instructions
 
 The project can be build using `make <target>`.  The Makefile has five targets:
 
-* `build` compiles the source code and generates an executable.
-* `debug` compiles the source code and generates an executable, including debugging information.
-* `clean` deletes the `build/` and `install/`  directories, i.e., cleans the build artifacts.
-* `format` applies [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to style the source code.
-* `all` cleans the build artifacts, formats and builds the code.
+* `build`: compiles the source code and generates an executable.
+* `debug`: compiles the source code and generates an executable, including debugging information.
+* `clean`: deletes the `build/` and `install/`  directories, i.e., cleans the build artifacts.
+* `format`: applies [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to style the source code.
+* `all`: cleans the build artifacts, formats and builds the code.
 
 ## Running the Server
 
@@ -77,9 +77,9 @@ bla bla bla....
 These are the rubric items addressed by this project:
 
 * README
-- [x] [A README with instructions is included with the project.] (https://github.com/pragmaerror/CppND-Capstone-Project/blob/master/README.md#cppnd-capstone-hello-world-repo)
-- [x] [The README indicates which project is chosen.](https://github.com/pragmaerror/CppND-Capstone-Project/blob/master/README.md#L05)
-- [x] [The README includes information about each rubric point addressed.] (https://github.com/pragmaerror/CppND-Capstone-Project/blob/master/README.md#project-rubric)
+- [x] [A README with instructions is included with the project.](https://github.com/pragmaerror/CppND-Capstone/blob/master/README.md#cppnd-capstone-hello-world-repo)
+- [x] [The README indicates which project is chosen.](https://github.com/pragmaerror/CppND-Capstone/blob/master/README.md#L05)
+- [x] [The README includes information about each rubric point addressed.](https://github.com/pragmaerror/CppND-Capstone/blob/master/README.md#project-rubric)
 
 * Compiling and Testing
 - [x] The submission must compile and run.
