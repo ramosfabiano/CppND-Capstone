@@ -34,12 +34,12 @@ The project was developed/tested on Debian 11 (Bullseye) and Arch Linux, but it 
   * Debian: `sudo apt install libboost-all-dev`
   * Arch: `sudo pacman -S boost`
 * clang-tidy >= 11.0.1
-    * Debian: `sudo apt install clang-tidy`
-    * Arch: `sudo pacman -S clang`
-* Optional:
-  * astyle >= 3.1
-    * Debian: `sudo apt install astyle`
-    * Arch: `sudo pacman -S astyle`  
+  * Debian: `sudo apt install clang-tidy`
+  * Arch: `sudo pacman -S clang`
+* [OPTIONAL] astyle >= 3.1
+  * Debian: `sudo apt install astyle`
+  * Arch: `sudo pacman -S astyle`  
+
 ## Basic Build Instructions
 
 The project can be build using `make <target>`.  The Makefile has five targets:
@@ -47,7 +47,7 @@ The project can be build using `make <target>`.  The Makefile has five targets:
 * `build`: compiles the source code and generates an executable.
 * `debug`: compiles the source code and generates an executable, including debugging information.
 * `clean`: deletes the `build/` and `install/`  directories, i.e., cleans the build artifacts.
-* `format`: formats the source code using the astyle tool.
+* `format`: formats the source code using the `astyle` tool.
 
 
 ## Running the Server
