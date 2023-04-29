@@ -75,15 +75,15 @@ Upon receiving a connection, the server handles the request in separate thread.
 These are the rubric items addressed by this project:
 
 **README**
-- [x] A README with instructions is included with the project. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md)
-- [x] The README indicates which project is chosen. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#overview)
-- [x] The README includes information about each rubric point addressed. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#project-rubric)
+- [x] A README with instructions is included with the project.
+- [x] The README indicates which project is chosen.
+- [x] The README includes information about each rubric point addressed. 
 
 **Compiling and Testing**
 - [x] The submission must compile and run.
 
 **Loops, Functions, I/O**
-- [ ] The project demonstrates an understanding of C++ functions and control structures.
+- [ ] The project demonstrates an understanding of C++ functions and control structures.  [check!](https://...)
 - [ ] The project reads data from a file and process the data, or the program writes data to a file.
 - [ ] The project accepts user input and processes the input.
 
