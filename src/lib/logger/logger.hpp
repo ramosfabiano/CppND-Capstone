@@ -12,9 +12,6 @@ namespace logger
     Logger.
 
     Singleton, thread-safe.
-
-    Usage:
-        LOGGER() << "Hello world!" << std::endl;
 */
 class Logger
 {
