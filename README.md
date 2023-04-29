@@ -22,8 +22,8 @@ The project was developed/tested on Debian Bullseye and Arch Linux, but it shoul
 ## Build Dependencies 
 
 * cmake >= 3.18
- * Debian: `sudo apt install cmake`
- * Arch: `sudo pacman -S cmake`
+  * Debian: `sudo apt install cmake`
+  * Arch: `sudo pacman -S cmake`
 * make >= 4.3 
  * Debian: `sudo apt install make`
  * Arch: `sudo pacman -S make`
