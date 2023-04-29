@@ -75,8 +75,8 @@ Upon receiving a connection, the server handles the request in separate thread.
 These are the rubric items addressed by this project:
 
 **README**
+
 - [x] A README with instructions is included with the project.
-  - *This file.*
 - [x] The README indicates which project is chosen.
 - [x] The README includes information about each rubric point addressed. 
 
@@ -84,9 +84,9 @@ These are the rubric items addressed by this project:
 - [x] The submission must compile and run.
 
 **Loops, Functions, I/O**
-- [ ] The project demonstrates an understanding of C++ functions and control structures.  [check!](https://...)
+- [x] The project demonstrates an understanding of C++ functions and control structures.
 - [ ] The project reads data from a file and process the data, or the program writes data to a file.
-- [ ] The project accepts user input and processes the input.
+- [x] The project accepts user input and processes the input. [link](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/app/main.cpp#L20)
 
 **Object Oriented Programming**
 - [ ] The project uses Object Oriented Programming techniques.
@@ -97,10 +97,10 @@ These are the rubric items addressed by this project:
 - [ ] Classes follow an appropriate inheritance hierarchy.
 - [ ] Overloaded functions allow the same function to operate on different parameters.
 - [ ] Derived class functions override virtual base class functions.
-- [ ] Templates generalize functions in the project.
+- [x] Templates generalize functions in the project. [link](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L35)
 
 **Memory Management**
-- [ ] The project makes use of references in function declarations.
+- [x] The project makes use of references in function declarations.
 - [ ] The project uses destructors appropriately.
 - [ ] The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
 - [ ] The project follows the Rule of 5.
@@ -110,7 +110,7 @@ These are the rubric items addressed by this project:
 **Concurrency**
 - [ ] The project uses multithreading.
 - [ ] A promise and future is used in the project.
-- [ ] A mutex or lock is used in the project.
+- [x] A mutex or lock is used in the project. [link](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L38)
 - [ ] A condition variable is used in the project.
 
 
