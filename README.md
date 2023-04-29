@@ -77,9 +77,9 @@ Upon receiving a connection, the server handles the request in separate thread.
 These are the rubric items addressed by this project:
 
 **README**
-- [x] A README with instructions is included with the project.[check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#cppnd-capstone-project---minimal-http-server)
-- [x] The README indicates which project is chosen.[check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#cppnd-capstone-project---minimal-http-server)
-- [x] The README includes information about each rubric point addressed.[check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#project-rubric)
+- [x] A README with instructions is included with the project. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md)
+- [x] The README indicates which project is chosen. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md)
+- [x] The README includes information about each rubric point addressed. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#project-rubric)
 
 **Compiling and Testing**
 - [x] The submission must compile and run.
