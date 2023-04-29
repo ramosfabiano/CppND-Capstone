@@ -33,10 +33,10 @@ The project was developed/tested on Debian 11 (Bullseye) and Arch Linux, but it 
 * boost >= 1.74
   * Debian: `sudo apt install libboost-all-dev`
   * Arch: `sudo pacman -S boost`
-* Optional:
-  * clang-tidy >= 11.0.1
+* clang-tidy >= 11.0.1
     * Debian: `sudo apt install clang-tidy`
     * Arch: `sudo pacman -S clang`
+* Optional:
   * astyle >= 3.1
     * Debian: `sudo apt install astyle`
     * Arch: `sudo pacman -S astyle`  
