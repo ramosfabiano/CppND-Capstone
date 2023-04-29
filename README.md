@@ -76,6 +76,7 @@ These are the rubric items addressed by this project:
 
 **README**
 - [x] A README with instructions is included with the project.
+  - *This file.*
 - [x] The README indicates which project is chosen.
 - [x] The README includes information about each rubric point addressed. 
 
