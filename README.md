@@ -86,7 +86,7 @@ These are the rubric items addressed by this project:
 **Loops, Functions, I/O**
 - [x] The project demonstrates an understanding of C++ functions and control structures.
 - [ ] The project reads data from a file and process the data, or the program writes data to a file.
-- [x] The project accepts user input and processes the input. [link](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/app/main.cpp#L20)
+- [x] The project accepts user input and processes the input. [See here.](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/app/main.cpp#L20)
 
 **Object Oriented Programming**
 - [ ] The project uses Object Oriented Programming techniques.
@@ -97,7 +97,7 @@ These are the rubric items addressed by this project:
 - [ ] Classes follow an appropriate inheritance hierarchy.
 - [ ] Overloaded functions allow the same function to operate on different parameters.
 - [ ] Derived class functions override virtual base class functions.
-- [x] Templates generalize functions in the project. [link](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L35)
+- [x] Templates generalize functions in the project. [See here.](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L35)
 
 **Memory Management**
 - [x] The project makes use of references in function declarations.
@@ -110,7 +110,7 @@ These are the rubric items addressed by this project:
 **Concurrency**
 - [ ] The project uses multithreading.
 - [ ] A promise and future is used in the project.
-- [x] A mutex or lock is used in the project. [link](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L38)
+- [x] A mutex or lock is used in the project. [See here.](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L38)
 - [ ] A condition variable is used in the project.
 
 
