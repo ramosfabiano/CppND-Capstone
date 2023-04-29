@@ -2,7 +2,7 @@
 
 /*
     HTTPServer
-    
+
     Main server class.
 */
 namespace http_server

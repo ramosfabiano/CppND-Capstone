@@ -10,7 +10,7 @@ namespace logger
 
 /*
     Logger.
-    
+
     Singleton, thread-safe.
 
     Usage:
@@ -44,7 +44,7 @@ public:
     typedef std::ostream &(*ManipulatorFunction)(std::ostream &);
     Logger &operator<<(ManipulatorFunction manipFunc)
     {
-        std::lock_guard<std::mutex> lock(_mutex);        
+        std::lock_guard<std::mutex> lock(_mutex);
         bool  isEndl  = (manipFunc == static_cast<ManipulatorFunction>(std::endl));
         bool  isFlush = (manipFunc == static_cast<ManipulatorFunction>(std::flush));
         if (isFlush || isEndl)

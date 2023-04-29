@@ -7,7 +7,6 @@
 constexpr int DEFAULT_PORT = 8080;
 constexpr std::string_view DEFAULT_FOLDER = "./site";
 
-
 int main(int argc, char **argv)
 {
     int port{DEFAULT_PORT};
@@ -18,13 +17,14 @@ int main(int argc, char **argv)
         //
         // parse command line
         //
-        boost::program_options::options_description desc("Allowed options");
+        boost::program_options::variables_map vm;
+        boost::program_options::options_description desc("Options");
+
         desc.add_options()
         ("port", boost::program_options::value(&port), "Port to listen on.")
         ("folder", boost::program_options::value(&folder), "Folder to serve files from.")
         ("help", "Prints help message.");
-
-        boost::program_options::variables_map vm;
+        
         boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).run(), vm);
         boost::program_options::notify(vm);
 
