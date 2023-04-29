@@ -22,6 +22,7 @@ HTTPServer::~HTTPServer()
     LOGGER() << "<<<<<< HTTP server shutting down." << std::endl;
 }
 
+
 void HTTPServer::run()
 {
     LOGGER() << "Listening on port " << _port << std::endl;

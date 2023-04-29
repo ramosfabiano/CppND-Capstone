@@ -10,12 +10,14 @@ constexpr std::string_view DEFAULT_FOLDER = "./site";
 
 int main(int argc, char **argv)
 {
-
     int port{DEFAULT_PORT};
     std::string folder{DEFAULT_FOLDER};
 
     try
     {
+        //
+        // parse command line
+        //
         boost::program_options::options_description desc("Allowed options");
         desc.add_options()
         ("port", boost::program_options::value(&port), "Port to listen on.")
@@ -31,34 +33,31 @@ int main(int argc, char **argv)
             LOGGER() << desc << std::endl;
             return 0;
         }
-
         if (vm.count("port"))
         {
             port = vm["port"].as<int>();
         }
-
         if (vm.count("folder"))
         {
             folder = vm["folder"].as<std::string>();
         }
 
+        //
+        // start server
+        //
         auto http_server = http_server::HTTPServer(port, folder);
         http_server.run();
 
     }
     catch (std::exception &e)
     {
-
         LOGGER() << "Error: " << e.what() << std::endl;
         return -1;
-
     }
     catch (...)
     {
-
         LOGGER() << "Unknown error!" << std::endl;
         return -1;
-
     }
     return 0;
 }

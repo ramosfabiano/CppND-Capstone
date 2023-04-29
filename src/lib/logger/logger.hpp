@@ -7,24 +7,28 @@
 namespace logger
 {
 
-#define LOGGER() logger::Logger::getInstance()
-
+/*
+    Logger.
+    
+    Usage:
+        LOGGER() << "Hello world!" << std::endl;
+*/
 class Logger
 {
-
 public:
 
-    // singleton pattern
+    // enforcing singleton pattern
     void operator=(Logger const&) = delete;
     Logger(Logger const&) = delete;
 
+    // returns the singleton instance
     static Logger &getInstance()
     {
         static Logger _instance;
         return _instance;
     }
 
-    // accumulates regular log messages...
+    // log messages are accumulated in a stringstream...
     template <class T>
     Logger &operator<<(const T &logMsg)
     {
@@ -32,13 +36,19 @@ public:
         return *this;
     }
 
-    // ... until a flush or endl is encountered
+    // ...until a std::flush or std::endl is encountered
     typedef std::ostream &(*ManipulatorFunction)(std::ostream &);
     Logger &operator<<(ManipulatorFunction manip)
     {
-        if (manip == static_cast<ManipulatorFunction>(std::flush) || manip == static_cast<ManipulatorFunction>(std::endl))
+        bool  isFlush = manip == static_cast<ManipulatorFunction>(std::flush);
+        bool  isEndl  = manip == static_cast<ManipulatorFunction>(std::endl);
+        if (isFlush || isEndl)
         {
-            std::cout << currentTimeAsString() << " " << _logStream.str() << std::endl;
+            std::cout << currentTimeAsString() << " " << _logStream.str();
+            if (isEndl)
+            {
+                std::cout << std::endl;
+            }
             _logStream.str("");
         }
         return *this;
@@ -48,8 +58,10 @@ private:
 
     std::stringstream _logStream;
 
+    // private constructor to enforce singleton pattern
     Logger() {}
 
+    // return current time in a format suitable for logging
     std::string currentTimeAsString()
     {
         auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -58,5 +70,7 @@ private:
         return timeStr;
     }
 };
+
+#define LOGGER() logger::Logger::getInstance()
 
 } // namespace logger
