@@ -3,7 +3,7 @@ all: build
 
 .PHONY: format
 format:
-	find src/ -name  *.?pp | xargs astyle -n --style=allman --add-brackets --convert-tabs --indent-cases --pad-oper
+	find src/ -name  *.?pp | xargs astyle -n --style=allman --add-braces --convert-tabs --indent-cases --pad-oper
 
 .PHONY: build
 build:
