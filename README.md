@@ -2,11 +2,11 @@
 
 This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
 
-In order to exercise the skills learned during the course, I have decided to implement a basic HTTP server.  Such application provides a good framework for showcasing the OOP, Memory Management and Concurrency topics explored throughout the course.
-
 ## Overview
 
-An HTTP server is a well-known application. 
+In order to exercise the skills learned during the course, I have decided to implement a basic HTTP server.  
+
+An HTTP server is a well-known application, and offers excelent grounds for showcasing the OOP, Memory Management and Concurrency topics explored throughout the course.
 
 For this project, we do not aim to implement a full-featured server, but a basic implemention capable of handling a simple static website using HTTP/1.1.
 
@@ -78,7 +78,7 @@ These are the rubric items addressed by this project:
 
 **README**
 - [x] A README with instructions is included with the project. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md)
-- [x] The README indicates which project is chosen. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md)
+- [x] The README indicates which project is chosen. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#overview)
 - [x] The README includes information about each rubric point addressed. [check!](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#project-rubric)
 
 **Compiling and Testing**
