@@ -15,7 +15,7 @@ public:
     HTTPServer(int port, std::string& folder);
     ~HTTPServer();
 
-    // starts server loop (blocking)
+    // server main loop (blocking)
     void run();
 
 private:

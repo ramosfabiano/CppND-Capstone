@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <mutex>
 
 namespace logger
 {
@@ -10,6 +11,8 @@ namespace logger
 /*
     Logger.
     
+    Singleton, thread-safe.
+
     Usage:
         LOGGER() << "Hello world!" << std::endl;
 */
@@ -32,16 +35,18 @@ public:
     template <class T>
     Logger &operator<<(const T &logMsg)
     {
+        std::lock_guard<std::mutex> lock(_mutex);
         _logStream << logMsg;
         return *this;
     }
 
     // ...until a std::flush or std::endl is encountered
     typedef std::ostream &(*ManipulatorFunction)(std::ostream &);
-    Logger &operator<<(ManipulatorFunction manip)
+    Logger &operator<<(ManipulatorFunction manipFunc)
     {
-        bool  isFlush = manip == static_cast<ManipulatorFunction>(std::flush);
-        bool  isEndl  = manip == static_cast<ManipulatorFunction>(std::endl);
+        std::lock_guard<std::mutex> lock(_mutex);        
+        bool  isEndl  = (manipFunc == static_cast<ManipulatorFunction>(std::endl));
+        bool  isFlush = (manipFunc == static_cast<ManipulatorFunction>(std::flush));
         if (isFlush || isEndl)
         {
             std::cout << currentTimeAsString() << " " << _logStream.str();
@@ -55,7 +60,10 @@ public:
     }
 
 private:
+    // mutex to make the logger thread safe
+    std::mutex _mutex;
 
+    // stringstream to accumulate log messages
     std::stringstream _logStream;
 
     // private constructor to enforce singleton pattern
