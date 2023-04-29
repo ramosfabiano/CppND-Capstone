@@ -57,39 +57,37 @@ The `./site` folder contains a simple web site for demonstration purposes.
 Then with the server running, open a web browser and point to `http://localhost:<port>`, where  `port` should be the port the server is listening at.
 
 
-** TODO: add a folder with a simple web site as an example. **
+**TODO: add a folder with a simple web site as an example.**
 
-** TODO: add gif dual window browser and server on a terminal **
+**TODO: add gif dual window browser and server on a terminal**
 
 
 ## Implementation Details
 
-** TODO: complete as the implemenation moves on... **
+**TODO: complete as the implemenation moves on...**
 
 After being launched, the server binds to the indicated port and listen for connections.
 
 Upon receiving a connection, the server handles the request in separate thread.
 
-bla bla bla....
-
 ## Project Rubric
 
 These are the rubric items addressed by this project:
 
-* README
+**README**
 - [x] [A README with instructions is included with the project.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#cppnd-capstone-project---minimal-http-server)
 - [x] [The README indicates which project is chosen.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#cppnd-capstone-project---minimal-http-server)
 - [x] [The README includes information about each rubric point addressed.](https://github.com/pragmaerror/CppND-Capstone/blob/main/README.md#project-rubric)
 
-* Compiling and Testing
+**Compiling and Testing**
 - [x] The submission must compile and run.
 
-* Loops, Functions, I/O
+**Loops, Functions, I/O**
 - [ ] The project demonstrates an understanding of C++ functions and control structures.
 - [ ] The project reads data from a file and process the data, or the program writes data to a file.
 - [ ] The project accepts user input and processes the input.
 
-* Object Oriented Programming
+**Object Oriented Programming**
 - [ ] The project uses Object Oriented Programming techniques.
 - [ ] Classes use appropriate access specifiers for class members.
 - [ ] Class constructors utilize member initialization lists.
@@ -100,7 +98,7 @@ These are the rubric items addressed by this project:
 - [ ] Derived class functions override virtual base class functions.
 - [ ] Templates generalize functions in the project.
 
-* Memory Management
+**Memory Management**
 - [ ] The project makes use of references in function declarations.
 - [ ] The project uses destructors appropriately.
 - [ ] The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate.
@@ -108,7 +106,7 @@ These are the rubric items addressed by this project:
 - [ ] The project uses move semantics to move data, instead of copying it, where possible.
 - [ ] The project uses smart pointers instead of raw pointers.
 
-* Concurrency
+**Concurrency**
 - [ ] The project uses multithreading.
 - [ ] A promise and future is used in the project.
 - [ ] A mutex or lock is used in the project.
