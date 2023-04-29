@@ -1,7 +1,2 @@
-set (HTTP_SERVER_LIBRARY_NAME http_server_lib)
+add_subdirectory(http_server)
 
-add_library(${HTTP_SERVER_LIBRARY_NAME} STATIC file1.cpp)
-set_target_properties (${HTTP_SERVER_LIBRARY_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
-set_target_properties(${HTTP_SERVER_LIBRARY_NAME} PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_COMMAND}")
-
-#install (TARGETS ${HTTP_SERVER_LIBRARY_NAME} DESTINATION ./)

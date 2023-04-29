@@ -1,10 +1,9 @@
 .PHONY: all
-all: clean format build
+all: build
 
 .PHONY: format
 format:
-	clang-format src/lib/*.?pp  -i
-	clang-format src/app/*.?pp  -i
+	find src/ -name  *.?pp | xargs astyle -n --style=allman --add-brackets --convert-tabs --indent-cases --pad-oper
 
 .PHONY: build
 build:

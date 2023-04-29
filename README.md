@@ -17,7 +17,7 @@ The HTTP/1.1 protocol is defined in RFCs [7230](http://www.rfc-editor.org/info/r
 
 ## System Requirements
 
-The project was developed/tested on Debian Bullseye and Arch Linux, but it should compile and run fine on any Linux distribution.
+The project was developed/tested on Debian 11 (Bullseye) and Arch Linux, but it should compile and run fine on any Linux distribution.
 
 ## Build Dependencies 
 
@@ -30,14 +30,16 @@ The project was developed/tested on Debian Bullseye and Arch Linux, but it shoul
 * gcc/g++ >= 10.2
   * Debian: `sudo apt install g++`
   * Arch: `sudo pacman -S gcc`
+* boost >= 1.74
+  * Debian: `sudo apt install libboost-all-dev`
+  * Arch: `sudo pacman -S boost`
 * Optional:
-  * clang-format >= 11.0.1
-    * Debian: `sudo apt install clang-format`
-  * Arch: `sudo pacman -S clang`
   * clang-tidy >= 11.0.1
     * Debian: `sudo apt install clang-tidy`
     * Arch: `sudo pacman -S clang`
-  
+  * astyle >= 3.1
+    * Debian: `sudo apt install astyle`
+    * Arch: `sudo pacman -S astyle`  
 ## Basic Build Instructions
 
 The project can be build using `make <target>`.  The Makefile has five targets:
@@ -45,16 +47,16 @@ The project can be build using `make <target>`.  The Makefile has five targets:
 * `build`: compiles the source code and generates an executable.
 * `debug`: compiles the source code and generates an executable, including debugging information.
 * `clean`: deletes the `build/` and `install/`  directories, i.e., cleans the build artifacts.
-* `format`: applies [clang-format](https://clang.llvm.org/docs/ClangFormat.html) to style the source code.
-* `all`: cleans the build artifacts, formats and builds the code.
+* `format`: formats the source code using the astyle tool.
+
 
 ## Running the Server
 
-In order to run the resulting executable manually: `./install/http_server --port=<port> --folder=<folder>` where `port` should be the port to listen at and
-`folder` should be the path to a directory containing the files to be served. The options are optional and defaults to `12345` and `./site` respectivelly.
+In order to run the resulting executable manually: `./install/http_server --port=<port> --folder=<folder>` where `port` should be the port to listen on and
+`folder` should be the path to a directory containing the files to be served. The options are optional and defaults to `8080` and `./site` respectivelly.
 The `./site` folder contains a simple web site for demonstration purposes.
 
-Then with the server running, open a web browser and point to `http://localhost:<port>`, where  `port` should be the port the server is listening at.
+Then with the server running, open a web browser and point to `http://localhost:<port>`, where  `port` should be the port the server is listening on.
 
 
 **TODO: add a folder with a simple web site as an example.**
