@@ -50,8 +50,12 @@ The project can be build using `make <target>`.  The Makefile has five targets:
 
 ## Running the Server
 
-In order to run the resulting executable manually: `./install/http_server --port=<port> --folder=<folder>` where `port` should be the port to listen on and
-`folder` should be the path to a directory containing the files to be served. The options are optional and defaults to `8080` and `./site` respectivelly.
+In order to run the resulting executable manually: 
+
+`./install/http_server --port=<port> --folder=<folder>` 
+
+Where `port` should be the port to listen on and `folder` should be the path to a directory containing the files to be served.  These options are not mandatory and defaults to `8080` and `./site` respectivelly.
+
 The `./site` folder contains a simple web site for demonstration purposes.
 
 Then with the server running, open a web browser and point to `http://localhost:<port>`, where  `port` should be the port the server is listening on.
