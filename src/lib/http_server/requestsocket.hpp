@@ -20,13 +20,15 @@ public:
     RequestSocket(int socketFileDescriptor);
     ~RequestSocket();
 
-    void read();
-    void write();
+    std::string read();
 
 private:
 
     // native socket file descriptor
     int _socketFileDescriptor;
+
+    // checks if data is available at the socket (non-blocking)
+    bool peekForData(int timeOutSec = 1);
 
 };
 

@@ -20,7 +20,7 @@ public:
     ServerSocket(int port);
     ~ServerSocket();
 
-    bool PeekConnection(int timeOutSec = 5);
+    bool peekConnection(int timeOutSec = 5);
     RequestSocketPtr acceptConnection();
 
 private:

@@ -29,10 +29,11 @@ void HTTPServer::run()
     // loop until cancelled
     while(!_cancelled)
     {
-        if (_socket.PeekConnection())
+        if (_socket.peekConnection())
         {
             auto requestSocket = _socket.acceptConnection();
-            requestSocket->read();
+            auto request = requestSocket->read();
+            std::cout << request << std::endl;
         }
     }
 

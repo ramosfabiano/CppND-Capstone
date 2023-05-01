@@ -2,6 +2,7 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
 #include <array>
 #include "logger.hpp"
 #include "requestsocket.hpp"
@@ -12,29 +13,54 @@ namespace http_server
 RequestSocket::RequestSocket(int socketFileDescriptor) :
     _socketFileDescriptor(socketFileDescriptor)
 {
+    // make socket not-blocking
+    int optval{1};
+    if (ioctl(_socketFileDescriptor, FIONBIO, (char *)&optval) < 0) // NOLINT
+    {
+        close(_socketFileDescriptor);
+        throw RequestSocketException("ioctl() failed.");
+    }
     LOGGER() << "Request socket created." << std::endl;
 }
 
 RequestSocket::~RequestSocket()
 {
+    shutdown(_socketFileDescriptor, SHUT_RDWR);
+    close(_socketFileDescriptor);
     LOGGER() << "Request socket closed." << std::endl;
 }
 
-void RequestSocket::read()
+bool RequestSocket::peekForData(int timeOutSec)
+{
+    // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
+    fd_set set;
+    struct timeval timeout;
+    FD_ZERO(&set);
+    FD_SET(_socketFileDescriptor, &set);
+    timeout.tv_sec = timeOutSec;
+    timeout.tv_usec = 0;
+    // rc < 0: error
+    // rc = 0 : timeout
+    // rc > 0: successs
+    int rc = select(_socketFileDescriptor + 1, &set, NULL, NULL, &timeout);
+    // NOLINTEND
+
+    return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
+}
+
+std::string RequestSocket::read()
 {
     LOGGER() << "Request socket read()." << std::endl;
     std::string request{""};
-
-    while(true)
+    while(peekForData())
     {
         constexpr int bufferSize{1024};
         std::array<char, bufferSize> buffer{0};
-        //LOGGER() << "calling recv..." << std::endl;
         auto rc = ::recv(_socketFileDescriptor, buffer.data(), buffer.size(), 0);
         //LOGGER() << "recv rc=" << rc <<  " errno: " << errno << std::endl;
         if (rc == 0 || (rc == -1 && errno == EWOULDBLOCK))
         {
-            break;
+            continue;
         }
         else
         {
@@ -48,14 +74,9 @@ void RequestSocket::read()
             }
         }
     }
-
-    LOGGER() << request << std::endl;
+    return std::move(request);
 }
 
-void RequestSocket::write()
-{
-    LOGGER() << "Request socket write()." << std::endl;
-}
 
 
 } // namespace http_server

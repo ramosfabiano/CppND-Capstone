@@ -70,7 +70,7 @@ ServerSocket::~ServerSocket()
     LOGGER() << "Server socket closed." << std::endl;
 }
 
-bool ServerSocket::PeekConnection(int timeOutSec)
+bool ServerSocket::peekConnection(int timeOutSec)
 {
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
@@ -102,19 +102,10 @@ RequestSocketPtr ServerSocket::acceptConnection()
         assert(errno != EWOULDBLOCK); // should not happen, as we peeked before with select()
         throw ServerSocketException("Failed to accept connection.");
     }
-    else
-    {
-        int newSocketFd = rc;
-        // make socket not-blocking
-        int optval{1};
-        if (ioctl(newSocketFd, FIONBIO, (char *)&optval) < 0)
-        {
-            close(newSocketFd);
-            throw ServerSocketException("ioctl() failed.");
-        }
-        return std::make_unique<RequestSocket>(rc);
-    }
     // NOLINTEND
+
+    // rc is the new socket file descriptor
+    return std::make_unique<RequestSocket>(rc);
 }
 
 
