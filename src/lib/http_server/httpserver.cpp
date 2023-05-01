@@ -22,7 +22,10 @@ HTTPServer::~HTTPServer()
     LOGGER() << "<<<<<< HTTP server shutting down." << std::endl;
     for (auto& thread : _threads)
     {
-        thread.join();
+        if (thread.joinable())
+        {
+            thread.join();
+        }
     }
     _threads.clear();
     _requestHandlers.clear();
