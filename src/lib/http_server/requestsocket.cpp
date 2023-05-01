@@ -23,12 +23,33 @@ RequestSocket::~RequestSocket()
 void RequestSocket::read()
 {
     LOGGER() << "Request socket read()." << std::endl;
+    std::string request{""};
 
-    constexpr int bufferSize{4098};
-    std::array<char, bufferSize> buffer{0};
-    ::read(_socketFileDescriptor, buffer.data(), bufferSize);
+    while(true)
+    {
+        constexpr int bufferSize{1024};
+        std::array<char, bufferSize> buffer{0};
+        //LOGGER() << "calling recv..." << std::endl;
+        auto rc = ::recv(_socketFileDescriptor, buffer.data(), buffer.size(), 0);
+        //LOGGER() << "recv rc=" << rc <<  " errno: " << errno << std::endl;
+        if (rc == 0 || (rc == -1 && errno == EWOULDBLOCK))
+        {
+            break;
+        }
+        else
+        {
+            if (rc < 0)
+            {
+                throw RequestSocketException("Failed to read from socket.");
+            }
+            else
+            {
+                request += buffer.data();
+            }
+        }
+    }
 
-    LOGGER() << buffer.data() << std::endl;
+    LOGGER() << request << std::endl;
 }
 
 void RequestSocket::write()

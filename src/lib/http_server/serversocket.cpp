@@ -2,6 +2,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
+#include <cassert>
 #include "logger.hpp"
 #include "serversocket.hpp"
 
@@ -13,31 +15,50 @@ ServerSocket::ServerSocket(int port) :
     // creates socket
     _socketFileDescriptor(socket(AF_INET, SOCK_STREAM, 0))
 {
+    int optval{1};
+
     if (_socketFileDescriptor < 0)
     {
         throw ServerSocketException("Socket creation failed.");
     }
     LOGGER() << "Server socket opened." << std::endl;
 
-    // bind to port
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
+
+    // make socket reusable
+    if (setsockopt(_socketFileDescriptor, SOL_SOCKET,  SO_REUSEADDR, (char *)&optval, sizeof(optval)) < 0)
+    {
+        close(_socketFileDescriptor);
+        throw ServerSocketException("setsockopt() failed.");
+    }
+
+    // make socket not-blocking
+    if (ioctl(_socketFileDescriptor, FIONBIO, (char *)&optval) < 0)
+    {
+        close(_socketFileDescriptor);
+        throw ServerSocketException("ioctl() failed.");
+    }
+
+    // bind to port
     struct sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(_port);
-    int bindRc = bind(_socketFileDescriptor, (struct sockaddr*)(&address), sizeof(address));
-    if (bindRc < 0)
+    if (bind(_socketFileDescriptor, (struct sockaddr*)(&address), sizeof(address)) < 0)
     {
-        std::string errMsg = "Failed binding to socket to port " + std::to_string(_port) + ". (rc=" + std::to_string(bindRc) + ").";
+        close(_socketFileDescriptor);
+        std::string errMsg = "Failed binding to socket to port " + std::to_string(_port);
         throw ServerSocketException(errMsg);
     }
-    // NOLINTEND
 
     // listen for connections
     if (listen(_socketFileDescriptor, _maxPendingConnections) < 0)
     {
+        close(_socketFileDescriptor);
         throw ServerSocketException("Failed to listen on socket.");
     }
+
+    // NOLINTEND
 
     LOGGER() << "Listening on port " << _port << std::endl;
 }
@@ -58,8 +79,13 @@ bool ServerSocket::PeekConnection(int timeOutSec)
     FD_SET(_socketFileDescriptor, &set);
     timeout.tv_sec = timeOutSec;
     timeout.tv_usec = 0;
+    // rc < 0: error
+    // rc = 0 : timeout
+    // rc > 0: successs
+    int rc = select(_socketFileDescriptor + 1, &set, NULL, NULL, &timeout);
     // NOLINTEND
-    return (select(_socketFileDescriptor + 1, &set, NULL, NULL, &timeout) > 0);
+
+    return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
 }
 
 RequestSocketPtr ServerSocket::acceptConnection()
@@ -70,13 +96,25 @@ RequestSocketPtr ServerSocket::acceptConnection()
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(_port);
-    int _newSocket = accept(_socketFileDescriptor, (struct sockaddr*)&address, (socklen_t*)&addrlen);
-    if (_newSocket < 0)
+    int rc = accept(_socketFileDescriptor, (struct sockaddr*)&address, (socklen_t*)&addrlen);
+    if (rc < 0)
     {
+        assert(errno != EWOULDBLOCK); // should not happen, as we peeked before with select()
         throw ServerSocketException("Failed to accept connection.");
     }
+    else
+    {
+        int newSocketFd = rc;
+        // make socket not-blocking
+        int optval{1};
+        if (ioctl(newSocketFd, FIONBIO, (char *)&optval) < 0)
+        {
+            close(newSocketFd);
+            throw ServerSocketException("ioctl() failed.");
+        }
+        return std::make_unique<RequestSocket>(rc);
+    }
     // NOLINTEND
-    return std::make_unique<RequestSocket>(_newSocket);
 }
 
 
