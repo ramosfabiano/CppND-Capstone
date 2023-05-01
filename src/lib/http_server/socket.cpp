@@ -20,15 +20,18 @@ Socket::Socket(int port) :
     LOGGER() << "Socket opened." << std::endl;
 
     // bind to port
-    struct sockaddr_in address
+    // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
+    struct sockaddr_in address;
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY;
+    address.sin_port = htons(_port);      
+    int bindRc = bind(_socketFileDescriptor, (struct sockaddr*)(&address), sizeof(address));
+    if (bindRc < 0)
     {
-        AF_INET, INADDR_ANY, htons(_port)
-    };
-    // NOLINTNEXTLINE   (disabling clang-tidy warning "cppcoreguidelines-pro-type-cstyle-cast" for the line below)
-    if (bind(_socketFileDescriptor, (struct sockaddr*)(&address), sizeof(address))  < 0)
-    {
-        throw SocketException("Failed binding to socket to port.");
+        std::string errMsg = "Failed binding to socket to port " + std::to_string(_port) + ". (rc=" + std::to_string(bindRc) + ").";
+        throw SocketException(errMsg);
     }
+    // NOLINTEND
     LOGGER() << "Listening on port " << _port << std::endl;
 }
 
