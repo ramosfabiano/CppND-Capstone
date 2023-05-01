@@ -2,7 +2,6 @@
 #include <stdexcept>
 #include "httpserver.hpp"
 #include "logger.hpp"
-#include "requesthandler.hpp"
 
 namespace http_server
 {
@@ -21,6 +20,12 @@ HTTPServer::HTTPServer(int port, std::string& folder): _socket(port), _folder(fo
 HTTPServer::~HTTPServer()
 {
     LOGGER() << "<<<<<< HTTP server shutting down." << std::endl;
+    for (auto& thread : _threads)
+    {
+        thread.join();
+    }
+    _threads.clear();
+    _requestHandlers.clear();
 }
 
 void HTTPServer::run()
@@ -32,11 +37,14 @@ void HTTPServer::run()
     {
         if (_socket.peekConnection())
         {
+            // accepts the connection
             auto requestSocket = _socket.acceptConnection();
 
-            // TODO: add to collection, start new thead / task
-            auto requestHandler = std::make_unique<RequestHandler>(std::move(requestSocket));
-            requestHandler->start();
+            // create request handler
+            auto& requestHandler = _requestHandlers.emplace_back(std::make_unique<RequestHandler>(std::move(requestSocket)));
+
+            // handles request in a separate thread
+            auto& handlerThread = _threads.emplace_back(&RequestHandler::start, requestHandler.get());
         }
     }
 
