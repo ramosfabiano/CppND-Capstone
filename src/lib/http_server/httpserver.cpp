@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include "httpserver.hpp"
 #include "logger.hpp"
+#include "requesthandler.hpp"
 
 namespace http_server
 {
@@ -32,8 +33,10 @@ void HTTPServer::run()
         if (_socket.peekConnection())
         {
             auto requestSocket = _socket.acceptConnection();
-            auto request = requestSocket->read();
-            std::cout << request << std::endl;
+
+            // TODO: add to collection, start new thead / task
+            auto requestHandler = std::make_unique<RequestHandler>(std::move(requestSocket));
+            requestHandler->start();
         }
     }
 
