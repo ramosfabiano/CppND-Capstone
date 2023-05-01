@@ -24,7 +24,7 @@ Socket::Socket(int port) :
     struct sockaddr_in address;
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(_port);      
+    address.sin_port = htons(_port);
     int bindRc = bind(_socketFileDescriptor, (struct sockaddr*)(&address), sizeof(address));
     if (bindRc < 0)
     {
