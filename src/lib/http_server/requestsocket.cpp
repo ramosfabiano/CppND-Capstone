@@ -25,7 +25,6 @@ RequestSocket::RequestSocket(int socketFileDescriptor) :
 
 RequestSocket::~RequestSocket()
 {
-    shutdown(_socketFileDescriptor, SHUT_RDWR);
     close(_socketFileDescriptor);
     LOGGER() << "Request socket closed." << std::endl;
 }
@@ -56,8 +55,7 @@ std::string RequestSocket::read()
     {
         constexpr int bufferSize{1024};
         std::array<char, bufferSize> buffer{0};
-        auto rc = ::recv(_socketFileDescriptor, buffer.data(), buffer.size(), 0);
-        //LOGGER() << "recv rc=" << rc <<  " errno: " << errno << std::endl;
+        auto rc = recv(_socketFileDescriptor, buffer.data(), buffer.size(), 0);
         if (rc == 0 || (rc == -1 && errno == EWOULDBLOCK))
         {
             continue;
