@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <mutex>
+#include <array>
 
 namespace logger
 {
@@ -42,8 +43,8 @@ public:
     Logger &operator<<(ManipulatorFunction manipFunc)
     {
         std::lock_guard<std::mutex> lock(_mutex);
-        bool  isEndl  = (manipFunc == static_cast<ManipulatorFunction>(std::endl));
-        bool  isFlush = (manipFunc == static_cast<ManipulatorFunction>(std::flush));
+        bool isEndl  = (manipFunc == static_cast<ManipulatorFunction>(std::endl));
+        bool isFlush = (manipFunc == static_cast<ManipulatorFunction>(std::flush));
         if (isFlush || isEndl)
         {
             std::cout << currentTimeAsString() << " " << _logStream.str();
@@ -70,9 +71,9 @@ private:
     std::string currentTimeAsString()
     {
         auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-        char timeStr[std::size("[hh:mm:ss]X")];
-        std::strftime(&timeStr[0], sizeof(timeStr), "[%H:%M:%S]", std::localtime(&now));
-        return timeStr;
+        std::array<char, std::size("[hh:mm:ss]X")> timeStr;
+        std::strftime(timeStr.data(), timeStr.size(), "[%H:%M:%S]", std::localtime(&now));
+        return timeStr.data();
     }
 };
 

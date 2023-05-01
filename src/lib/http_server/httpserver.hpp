@@ -23,17 +23,20 @@ public:
     // server main loop (blocking)
     void run();
 
+    // set to interrupt main loop
+    void cancel();
+
 private:
-    // Ctrl+C signal handler
-    // cancellation will apply to all running instances of HTTPServer
-    static bool interruptReceived_;
-    static void interruptHandler_(int);
 
     // socket to receive connections
     ServerSocket _socket;
 
     // folder to serve files from
     std::string _folder;
+
+    // main loop interruption flag
+    bool _cancelled{false};
+
 };
 
 } // namespace http_server

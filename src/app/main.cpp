@@ -1,11 +1,22 @@
 #include <iostream>
 #include <string_view>
+#include <signal.h>
+#include <memory>
 #include <boost/program_options.hpp>
 #include <logger.hpp>
 #include <httpserver.hpp>
 
 constexpr int DEFAULT_PORT = 8080;
 constexpr std::string_view DEFAULT_FOLDER = "./site";
+
+
+// we make it global so it can be accessed by the siggnal handler
+static std::unique_ptr<http_server::HTTPServer> httpServer_; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
+
+void signalHandler(int sig)
+{
+    httpServer_->cancel();
+}
 
 int main(int argc, char **argv)
 {
@@ -14,9 +25,7 @@ int main(int argc, char **argv)
 
     try
     {
-        //
         // parse command line
-        //
         boost::program_options::variables_map vm;
         boost::program_options::options_description desc("Options");
 
@@ -44,11 +53,14 @@ int main(int argc, char **argv)
 
         LOGGER() << "Using port=" << port << " folder='" << folder << "'." << std::endl;
 
-        //
-        // start server
-        //
-        auto http_server = http_server::HTTPServer(port, folder);
-        http_server.run();
+        // instantiate server
+        httpServer_ = std::make_unique<http_server::HTTPServer>(port, folder);
+
+        // register signal handler (ctrl+c)
+        signal(SIGINT, signalHandler);
+
+        // start server (blocking)
+        httpServer_->run();
 
     }
     catch(http_server::BaseException& e)
