@@ -1,5 +1,7 @@
+#pragma once
+
 #include <string>
-#include "socket.hpp"
+#include "serversocket.hpp"
 
 namespace http_server
 {
@@ -22,9 +24,13 @@ public:
     void run();
 
 private:
+    // Ctrl+C signal handler
+    // cancellation will apply to all running instances of HTTPServer
+    static bool interruptReceived_;
+    static void interruptHandler_(int);
 
     // socket to receive connections
-    Socket _socket;
+    ServerSocket _socket;
 
     // folder to serve files from
     std::string _folder;

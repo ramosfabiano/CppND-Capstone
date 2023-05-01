@@ -60,6 +60,7 @@ The `./site` folder contains a simple web site for demonstration purposes.
 
 Then with the server running, open a web browser and point to `http://localhost:<port>`, where  `port` should be the port the server is listening on.
 
+To interrupt the server, press `Ctrl+C`.
 
 **TODO: add a folder with a simple web site as an example.**
 
