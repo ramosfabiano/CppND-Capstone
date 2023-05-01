@@ -6,15 +6,15 @@
 namespace http_server
 {
 
-HTTPServer::HTTPServer(int port, std::string& folder)
+HTTPServer::HTTPServer(int port, std::string& folder): _socket(port), _folder(folder)
 {
-    if (!std::filesystem::exists(folder))
+    if (!std::filesystem::exists(_folder))
     {
-        throw std::runtime_error("Folder '" + folder + "' does not exist!");
+        throw HTTPServerException("Folder '" + _folder + "' does not exist!");
     }
-    _port = port;
-    _folder = folder;
+
     LOGGER() << ">>>>>>> HTTP server started." << std::endl;
+    LOGGER() << "Serving files from folder: '" << _folder << std::endl;
 }
 
 HTTPServer::~HTTPServer()
@@ -25,8 +25,7 @@ HTTPServer::~HTTPServer()
 
 void HTTPServer::run()
 {
-    LOGGER() << "Listening on port " << _port << std::endl;
-    LOGGER() << "Serving files from folder: '" << _folder << std::endl;
+    LOGGER() << "Main loop started." << std::endl;
 }
 
 } // namespace http_server

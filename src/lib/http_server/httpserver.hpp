@@ -1,13 +1,16 @@
 #include <string>
+#include "socket.hpp"
+
+namespace http_server
+{
+
+IMPLEMENT_CUSTOM_EXCEPTION(HTTPServerException, "HTTPServer")
 
 /*
     HTTPServer
 
     Main server class.
 */
-namespace http_server
-{
-
 class HTTPServer
 {
 public:
@@ -20,8 +23,8 @@ public:
 
 private:
 
-    // port to listen on
-    int _port;
+    // socket to receive connections
+    Socket _socket;
 
     // folder to serve files from
     std::string _folder;

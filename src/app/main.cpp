@@ -24,7 +24,7 @@ int main(int argc, char **argv)
         ("port", boost::program_options::value(&port), "Port to listen on.")
         ("folder", boost::program_options::value(&folder), "Folder to serve files from.")
         ("help", "Prints help message.");
-        
+
         boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).run(), vm);
         boost::program_options::notify(vm);
 
@@ -42,6 +42,8 @@ int main(int argc, char **argv)
             folder = vm["folder"].as<std::string>();
         }
 
+        LOGGER() << "Using port=" << port << " folder='" << folder << "'." << std::endl;
+
         //
         // start server
         //
@@ -49,9 +51,14 @@ int main(int argc, char **argv)
         http_server.run();
 
     }
-    catch (std::exception &e)
+    catch(http_server::BaseException& e)
     {
-        LOGGER() << "Error: " << e.what() << std::endl;
+        LOGGER() << "[ERROR]" << e.what() << std::endl;
+        return -1;
+    }
+    catch (std::exception& e)
+    {
+        LOGGER() << "[ERROR]" << e.what() << std::endl;
         return -1;
     }
     catch (...)
