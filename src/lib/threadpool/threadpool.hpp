@@ -100,7 +100,7 @@ private:
                 {
                     return !_tasks.empty() || _terminateRequested;
                 });
-                if (_terminateRequested) //&& _tasks.empty())
+                if (_terminateRequested)
                 {
                     // abort thread
                     LOGGER() << "Thread " << std::this_thread::get_id() << " terminated." << std::endl;

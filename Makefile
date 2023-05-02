@@ -11,7 +11,7 @@ build:
 	mkdir -p install
 	cd build && \
 	cmake -DCMAKE_BUILD_TYPE=release -DCMAKE_INSTALL_PREFIX=../install .. && \
-	make install
+	make -j3 install
 
 .PHONY: debug
 debug:
@@ -19,7 +19,7 @@ debug:
 	mkdir -p install
 	cd build && \
 	cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=../install .. && \
-	make install
+	make -j3 install
 
 .PHONY: clean
 clean:
