@@ -7,7 +7,7 @@ For the capstone, I have decided to implement a (simple) HTTP server.  An HTTP s
 ## Overview
 
 Of course, implementing a full-fledged HTTP server from scratch would be too big of challenge and would extend far beyond the purpose of this capstone. 
-So, for this course project, we have narrowed down our scope as to implement a basic HTTP server capable of handling a static website using HTTP/1.1.
+So, for this course project, we have narrowed down our scope as to implement a basic HTTP server with the minimum set of capabilities enough to serve a static website using HTTP/1.1.
 
 The HTTP/1.1 protocol is defined in RFCs [7230](http://www.rfc-editor.org/info/rfc7230), [7231](http://www.rfc-editor.org/info/rfc7231), 
 [7232](http://www.rfc-editor.org/info/rfc7232), [7233](http://www.rfc-editor.org/info/rfc7233), 
