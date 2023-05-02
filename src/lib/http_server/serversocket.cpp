@@ -70,7 +70,7 @@ ServerSocket::~ServerSocket()
     LOGGER() << "Server socket closed." << std::endl;
 }
 
-bool ServerSocket::peekConnection(int timeOutSec)
+bool ServerSocket::peekConnection(int timeOutSec) const
 {
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
@@ -88,7 +88,7 @@ bool ServerSocket::peekConnection(int timeOutSec)
     return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
 }
 
-RequestSocketPtr ServerSocket::acceptConnection()
+RequestSocketPtr ServerSocket::acceptConnection() const
 {
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     struct sockaddr_in address;

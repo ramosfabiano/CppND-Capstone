@@ -26,7 +26,7 @@ int main(int argc, char **argv)
     try
     {
         // parse command line
-        boost::program_options::variables_map vm;
+        boost::program_options::variables_map vMap;
         boost::program_options::options_description desc("Options");
 
         desc.add_options()
@@ -34,21 +34,21 @@ int main(int argc, char **argv)
         ("folder", boost::program_options::value(&folder), "Folder to serve files from.")
         ("help", "Prints help message.");
 
-        boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).run(), vm);
-        boost::program_options::notify(vm);
+        boost::program_options::store(boost::program_options::command_line_parser(argc, argv).options(desc).run(), vMap);
+        boost::program_options::notify(vMap);
 
-        if (vm.count("help"))
+        if (vMap.count("help") > 0)
         {
             LOGGER() << desc << std::endl;
             return 0;
         }
-        if (vm.count("port"))
+        if (vMap.count("port") > 0)
         {
-            port = vm["port"].as<int>();
+            port = vMap["port"].as<int>();
         }
-        if (vm.count("folder"))
+        if (vMap.count("folder") > 0)
         {
-            folder = vm["folder"].as<std::string>();
+            folder = vMap["folder"].as<std::string>();
         }
 
         LOGGER() << "Using port=" << port << " folder='" << folder << "'." << std::endl;

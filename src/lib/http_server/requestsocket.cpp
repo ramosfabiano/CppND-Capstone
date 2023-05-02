@@ -29,7 +29,7 @@ RequestSocket::~RequestSocket()
     LOGGER() << "Request socket closed." << std::endl;
 }
 
-bool RequestSocket::peekForData(int timeOutSec)
+bool RequestSocket::peek(int timeOutSec) const
 {
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
@@ -50,27 +50,21 @@ bool RequestSocket::peekForData(int timeOutSec)
 std::string RequestSocket::read()
 {
     LOGGER() << "Request socket read()." << std::endl;
-    std::string request{""};
-    while(peekForData())
+    std::string request;
+    while(peek())
     {
         constexpr int bufferSize{1024};
         std::array<char, bufferSize> buffer{0};
-        auto rc = recv(_socketFileDescriptor, buffer.data(), buffer.size(), 0);
-        if (rc == 0 || (rc == -1 && errno == EWOULDBLOCK))
+        auto errCode = recv(_socketFileDescriptor, buffer.data(), buffer.size(), 0);
+        if (errCode == 0 || (errCode == -1 && errno == EWOULDBLOCK))
         {
             continue;
         }
-        else
+        if (errCode < 0)
         {
-            if (rc < 0)
-            {
-                throw RequestSocketException("Failed to read from socket.");
-            }
-            else
-            {
-                request += buffer.data();
-            }
+            throw RequestSocketException("Failed to read from socket.");
         }
+        request += buffer.data();
     }
     return std::move(request);
 }

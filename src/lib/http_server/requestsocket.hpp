@@ -28,7 +28,7 @@ private:
     int _socketFileDescriptor;
 
     // checks if data is available at the socket (non-blocking)
-    bool peekForData(int timeOutSec = 1);
+    bool peek(int timeOutSec = 1) const;
 
 };
 
