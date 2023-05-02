@@ -26,6 +26,8 @@ private:
 
     std::unique_ptr<RequestSocket> _socket;
 
+    std::string _request;
+
 };
 
 } // namespace http_server

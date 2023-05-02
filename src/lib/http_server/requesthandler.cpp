@@ -18,8 +18,8 @@ RequestHandler::~RequestHandler()
 
 void RequestHandler::start()
 {
-    auto request = _socket->read();
-    std::cout << request << std::endl;
+    _request = _socket->read();
+    std::cout << _request << std::endl;
 }
 
 } // namespace http_server
