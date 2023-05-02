@@ -59,6 +59,10 @@ public:
                 std::cout << std::endl << std::flush;
             }
             logStream->str("");
+            // we release the stream after each flush/endl
+            // as a way to prevent the map from growing indefinitely
+            // as threads are created and destroyed
+            // (even though the use of a threadpool would prevent this from happening)
             releaseLogStream();
         }
         return *this;
