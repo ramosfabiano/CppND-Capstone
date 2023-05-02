@@ -36,17 +36,14 @@ public:
     ~ThreadPool()
     {
         {
-            std::lock_guard<std::mutex> lock(_taskMutex);
-
-            // discard any pending tasks
+            // discard any pending tasks && flags threads to terminate
+            std::lock_guard<std::mutex> lock(_tasksMutex);
             _tasks.clear();
-
-            // flags threads to terminate
             _terminateRequested = true;
         }
 
-        // notify _all_ threads
-        _taskCond.notify_all();
+        // wake-up all threads
+        _tasksConditionalVar.notify_all();
 
         // wait for threads to finish
         for (auto& thread : _threads)
@@ -64,23 +61,22 @@ public:
     {
         auto task = std::make_shared<std::packaged_task<void()>>(std::bind(std::forward<Function>(f), std::forward<Args>(args)...));
         {
-            std::unique_lock<std::mutex> lock(_taskMutex);
+            std::unique_lock<std::mutex> lock(_tasksMutex);
             _tasks.emplace_back([task]()
             {
                 (*task)();
             });
         }
-        _taskCond.notify_one();
+        _tasksConditionalVar.notify_one();
     }
 
 private:
-
     // collection of treads
     std::list<std::unique_ptr<std::thread>> _threads;
 
     // collection of tasks
-    std::mutex _taskMutex;
-    std::condition_variable _taskCond;
+    std::mutex _tasksMutex;
+    std::condition_variable _tasksConditionalVar;
     std::list<Task> _tasks;
 
     // termination flag
@@ -94,9 +90,9 @@ private:
         {
             Task taskToRun;
             {
-                std::unique_lock<std::mutex> lock(_taskMutex);
+                std::unique_lock<std::mutex> lock(_tasksMutex);
                 // wait for a task to be added or for the thread to be cancelled
-                _taskCond.wait(lock, [this] ()
+                _tasksConditionalVar.wait(lock, [this] ()
                 {
                     return !_tasks.empty() || _terminateRequested;
                 });
@@ -106,23 +102,19 @@ private:
                     LOGGER() << "Thread " << std::this_thread::get_id() << " terminated." << std::endl;
                     return;
                 }
-                else if (_tasks.empty())
+                if (_tasks.empty())
                 {
                     // keep waiting
                     continue;
                 }
-                else
-                {
-                    // pick a task to run
-                    taskToRun = std::move(_tasks.front());
-                    _tasks.pop_front();
-                }
+                // pick a task to run
+                taskToRun = std::move(_tasks.front());
+                _tasks.pop_front();
             }
             // run task
             taskToRun();
         }
     }
-
 };
 
 } // namespace threadpool
