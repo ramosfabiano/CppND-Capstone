@@ -47,6 +47,39 @@ bool RequestSocket::peek(int timeOutSec) const
     return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
 }
 
+// copy constructor
+RequestSocket::RequestSocket(const RequestSocket &other) :
+    _socketFileDescriptor(other._socketFileDescriptor)
+{
+    std::cout << "RequestSocket Copy Constructor" << std::endl;
+}
+
+// copy assignment operator
+RequestSocket &RequestSocket::operator=(const RequestSocket &other)
+{
+    std::cout << "RequestSocket Copy Assignment Operator" << std::endl;
+    close(_socketFileDescriptor);
+    _socketFileDescriptor = other._socketFileDescriptor;
+    return *this;
+}
+
+// move constructor
+RequestSocket::RequestSocket(RequestSocket &&other):
+    _socketFileDescriptor(other._socketFileDescriptor)
+{
+    std::cout << "RequestSocket Move Constructor" << std::endl;
+    other._socketFileDescriptor = -1;
+}
+
+// move assignment operator
+RequestSocket &RequestSocket::operator=(RequestSocket &&other)
+{
+    std::cout << "RequestSocket Move Assignment Operator" << std::endl;
+    _socketFileDescriptor = other._socketFileDescriptor;
+    other._socketFileDescriptor = -1;
+    return *this;
+}
+
 std::string RequestSocket::read()
 {
     LOGGER() << "Request socket read()." << std::endl;
@@ -68,7 +101,5 @@ std::string RequestSocket::read()
     }
     return std::move(request);
 }
-
-
 
 } // namespace http_server

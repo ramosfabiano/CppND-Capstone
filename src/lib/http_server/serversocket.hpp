@@ -1,8 +1,10 @@
 #pragma once
 
 #include <string>
+#include <memory>
 #include "baseexception.hpp"
 #include "requestsocket.hpp"
+
 namespace http_server
 {
 
@@ -21,7 +23,7 @@ public:
     ~ServerSocket();
 
     bool peekConnection(int timeOutSec = 5) const;
-    RequestSocketPtr acceptConnection() const;
+    std::unique_ptr<RequestSocket> acceptConnection() const;
 
 private:
 

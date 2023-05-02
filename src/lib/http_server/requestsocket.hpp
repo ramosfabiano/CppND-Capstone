@@ -20,6 +20,14 @@ public:
     RequestSocket(int socketFileDescriptor);
     ~RequestSocket();
 
+    // copy semantics
+    RequestSocket(const RequestSocket &other);
+    RequestSocket &operator=(const RequestSocket &other);
+
+    // move semantics
+    RequestSocket(RequestSocket &&other);
+    RequestSocket& operator=(RequestSocket &&other);
+
     std::string read();
 
 private:
@@ -31,7 +39,5 @@ private:
     bool peek(int timeOutSec = 1) const;
 
 };
-
-typedef std::unique_ptr<RequestSocket> RequestSocketPtr;
 
 } // namespace http_server

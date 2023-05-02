@@ -6,7 +6,7 @@
 namespace http_server
 {
 
-RequestHandler::RequestHandler(RequestSocketPtr&& requestSocket): _socket(std::move(requestSocket))
+RequestHandler::RequestHandler(std::unique_ptr<RequestSocket>&& requestSocket): _socket(std::move(requestSocket))
 {
     LOGGER() << ">>>>>>> Request Handler started." << std::endl;
 }

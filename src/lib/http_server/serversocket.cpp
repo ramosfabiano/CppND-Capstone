@@ -88,7 +88,7 @@ bool ServerSocket::peekConnection(int timeOutSec) const
     return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
 }
 
-RequestSocketPtr ServerSocket::acceptConnection() const
+std::unique_ptr<RequestSocket> ServerSocket::acceptConnection() const
 {
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     struct sockaddr_in address;

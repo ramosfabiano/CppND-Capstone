@@ -17,14 +17,14 @@ class RequestHandler
 {
 public:
 
-    RequestHandler(RequestSocketPtr&& requestSocket);
+    RequestHandler(std::unique_ptr<RequestSocket>&& requestSocket);
     ~RequestHandler();
 
     void start();
 
 private:
 
-    RequestSocketPtr _socket;
+    std::unique_ptr<RequestSocket> _socket;
 
 };
 
