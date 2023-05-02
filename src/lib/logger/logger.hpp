@@ -75,29 +75,29 @@ private:
     Logger() {}
 
     // return stringstream of current thread
-    std::stringstream* getLogStream()
-    {
-        // should only be called while holding the lock
-        assert(_mutex.owns_lock());
-
-        auto threadId = std::this_thread::get_id();
-        if (_streamMap.count(threadId) == 0)
-        {
-            auto p = std::make_unique<std::stringstream>();
-            _streamMap[threadId] = std::move(p);
-        }
-        return _streamMap[threadId].get();
-    }
-
-    // release stringstream of current thread
-    void releaseLogStream()
+    inline std::stringstream* getLogStream()
     {
         // should only be called while holding the lock
         assert(_mutex.owns_lock());
 
         auto threadId = std::this_thread::get_id();
         auto it = _streamMap.find(threadId);
-        if( it != _streamMap.end() )
+        if(it == _streamMap.end())
+        {
+            it = _streamMap.insert(std::make_pair(threadId, std::make_unique<std::stringstream>())).first;
+        }
+        return it->second.get();
+    }
+
+    // release stringstream of current thread
+    inline void releaseLogStream()
+    {
+        // should only be called while holding the lock
+        assert(_mutex.owns_lock());
+
+        auto threadId = std::this_thread::get_id();
+        auto it = _streamMap.find(threadId);
+        if(it != _streamMap.end())
         {
             _streamMap.erase(it);
         }
