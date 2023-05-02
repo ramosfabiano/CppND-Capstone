@@ -7,6 +7,9 @@
 #include <string>
 #include <mutex>
 #include <array>
+#include <thread>
+#include <map>
+#include <cassert>
 
 namespace logger
 {
@@ -36,7 +39,7 @@ public:
     Logger &operator<<(const T &logMsg)
     {
         std::lock_guard<std::mutex> lock(_mutex);
-        _logStream << logMsg;
+        *getLogStream() << logMsg;
         return *this;
     }
 
@@ -45,16 +48,18 @@ public:
     Logger &operator<<(ManipulatorFunction manipFunc)
     {
         std::lock_guard<std::mutex> lock(_mutex);
+        auto logStream = getLogStream();
         bool isEndl  = (manipFunc == static_cast<ManipulatorFunction>(std::endl));
         bool isFlush = (manipFunc == static_cast<ManipulatorFunction>(std::flush));
         if (isFlush || isEndl)
         {
-            std::cout << currentTimeAsString() << " " << _logStream.str();
+            std::cout << currentTimeAsString() << " " << logStream->str();
             if (isEndl)
             {
                 std::cout << std::endl << std::flush;
             }
-            _logStream.str("");
+            logStream->str("");
+            releaseLogStream();
         }
         return *this;
     }
@@ -63,11 +68,40 @@ private:
     // mutex to make the logger thread safe
     std::mutex _mutex;
 
-    // stringstream to accumulate log messages
-    std::stringstream _logStream;
+    // allows a per-thread stream
+    std::map<std::thread::id, std::unique_ptr<std::stringstream>> _streamMap;
 
     // private constructor to enforce singleton pattern
     Logger() {}
+
+    // return stringstream of current thread
+    std::stringstream* getLogStream()
+    {
+        // should only be called while holding the lock
+        assert(_mutex.owns_lock());
+
+        auto threadId = std::this_thread::get_id();
+        if (_streamMap.count(threadId) == 0)
+        {
+            auto p = std::make_unique<std::stringstream>();
+            _streamMap[threadId] = std::move(p);
+        }
+        return _streamMap[threadId].get();
+    }
+
+    // release stringstream of current thread
+    void releaseLogStream()
+    {
+        // should only be called while holding the lock
+        assert(_mutex.owns_lock());
+
+        auto threadId = std::this_thread::get_id();
+        auto it = _streamMap.find(threadId);
+        if( it != _streamMap.end() )
+        {
+            _streamMap.erase(it);
+        }
+    }
 
     // return current time in a format suitable for logging
     std::string currentTimeAsString()
