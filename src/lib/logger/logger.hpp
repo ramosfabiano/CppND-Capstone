@@ -1,3 +1,5 @@
+#pragma once
+
 #include <chrono>
 #include <ctime>
 #include <iostream>
@@ -50,7 +52,7 @@ public:
             std::cout << currentTimeAsString() << " " << _logStream.str();
             if (isEndl)
             {
-                std::cout << std::endl;
+                std::cout << std::endl << std::flush;
             }
             _logStream.str("");
         }

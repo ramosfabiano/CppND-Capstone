@@ -6,6 +6,7 @@
 #include <thread>
 #include "serversocket.hpp"
 #include "requesthandler.hpp"
+#include "threadpool.hpp"
 
 namespace http_server
 {
@@ -39,10 +40,10 @@ private:
     std::string _folder;
 
     // collection of request handlers
-    std::list<std::unique_ptr<RequestHandler>> _requestHandlers;
+    std::list<std::shared_ptr<RequestHandler>> _requestHandlers;
 
-    // collection of request handler threads
-    std::list<std::thread> _threads;
+    // threadpool to service requests
+    std::unique_ptr<threadpool::ThreadPool> _threadPool;
 
     // main loop interruption flag
     bool _cancelled{false};

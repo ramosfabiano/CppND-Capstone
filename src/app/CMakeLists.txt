@@ -1,3 +1,6 @@
+# boost
+find_package(Boost REQUIRED)
+
 set(HTTP_SERVER_EXECUTABLE_NAME http_server)
 
 add_executable(${HTTP_SERVER_EXECUTABLE_NAME} main.cpp )
