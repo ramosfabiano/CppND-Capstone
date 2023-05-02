@@ -37,13 +37,13 @@ public:
     {
         {
             // discard any pending tasks && flags threads to terminate
-            std::lock_guard<std::mutex> lock(_tasksMutex);
+            std::scoped_lock lock(_tasksMutex);
             _tasks.clear();
             _terminateRequested = true;
         }
 
         // wake-up all threads
-        _tasksConditionalVar.notify_all();
+        _tasksCondVar.notify_all();
 
         // wait for threads to finish
         for (auto& thread : _threads)
@@ -55,8 +55,8 @@ public:
         }
     }
 
-    // mimics std::thread constructor
-    template< class Function, class... Args >
+    // mimics std::thread() constructor
+    template<class Function, class... Args>
     void addTask (Function&& f, Args&&... args )
     {
         auto task = std::make_shared<std::packaged_task<void()>>(std::bind(std::forward<Function>(f), std::forward<Args>(args)...));
@@ -67,7 +67,7 @@ public:
                 (*task)();
             });
         }
-        _tasksConditionalVar.notify_one();
+        _tasksCondVar.notify_one();
     }
 
 private:
@@ -76,7 +76,7 @@ private:
 
     // collection of tasks
     std::mutex _tasksMutex;
-    std::condition_variable _tasksConditionalVar;
+    std::condition_variable _tasksCondVar;
     std::list<Task> _tasks;
 
     // termination flag
@@ -85,14 +85,14 @@ private:
     // thread loop
     void threadLoop()
     {
-        LOGGER() << "Thread " << std::this_thread::get_id() << " started" << std::endl;
+        LOGGER() << "Thread " << std::this_thread::get_id() << " started." << std::endl;
         while (true)
         {
             Task taskToRun;
             {
                 std::unique_lock<std::mutex> lock(_tasksMutex);
                 // wait for a task to be added or for the thread to be cancelled
-                _tasksConditionalVar.wait(lock, [this] ()
+                _tasksCondVar.wait(lock, [this] ()
                 {
                     return !_tasks.empty() || _terminateRequested;
                 });
