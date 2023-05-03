@@ -17,7 +17,6 @@ HTTPServer::HTTPServer(int port, std::string& folder):
     {
         throw HTTPServerException("Folder '" + _folder + "' does not exist!");
     }
-
     LOGGER() << ">>>>>>> HTTP server started." << std::endl;
     LOGGER() << "Serving files from folder: '" << _folder << std::endl;
 }
@@ -32,7 +31,6 @@ HTTPServer::~HTTPServer()
 void HTTPServer::run()
 {
     LOGGER() << "Main loop started." << std::endl;
-
     // loop until cancelled
     while(!_cancelled)
     {
@@ -48,7 +46,6 @@ void HTTPServer::run()
             _threadPool->addTask(&RequestHandler::start, requestHandler);
         }
     }
-
     LOGGER() << "Main loop end." << std::endl;
 }
 
