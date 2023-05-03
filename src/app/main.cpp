@@ -63,7 +63,7 @@ int main(int argc, char **argv)
         httpServer_->run();
 
     }
-    catch(http_server::BaseException& e)
+    catch(common::BaseException& e)
     {
         LOGGER() << "[ERROR]" << e.what() << std::endl;
         return -1;

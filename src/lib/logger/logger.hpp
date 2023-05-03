@@ -53,7 +53,8 @@ public:
         bool isFlush = (manipFunc == static_cast<ManipulatorFunction>(std::flush));
         if (isFlush || isEndl)
         {
-            std::cout << currentTimeAsString() << " " << logStream->str();
+            auto threadId = std::this_thread::get_id();
+            std::cout << "[" << threadId << "]" << currentTimeAsString() << " " << logStream->str();
             if (isEndl)
             {
                 std::cout << std::endl << std::flush;
@@ -81,9 +82,6 @@ private:
     // return stringstream of current thread
     inline std::stringstream* getLogStream()
     {
-        // should only be called while holding the lock
-        assert(_mutex.owns_lock());
-
         auto threadId = std::this_thread::get_id();
         auto it = _streamMap.find(threadId);
         if(it == _streamMap.end())
@@ -96,9 +94,6 @@ private:
     // release stringstream of current thread
     inline void releaseLogStream()
     {
-        // should only be called while holding the lock
-        assert(_mutex.owns_lock());
-
         auto threadId = std::this_thread::get_id();
         auto it = _streamMap.find(threadId);
         if(it != _streamMap.end())

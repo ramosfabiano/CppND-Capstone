@@ -9,10 +9,13 @@
 #include <future>
 #include <condition_variable>
 #include "logger.hpp"
+#include "baseexception.hpp"
 
 
 namespace threadpool
 {
+
+IMPLEMENT_CUSTOM_EXCEPTION(ThreadPoolException, "ThreadPoolException")
 
 /*
     ThreadPool
@@ -22,10 +25,17 @@ namespace threadpool
 class ThreadPool
 {
 public:
-    typedef std::function<void()> Task;
-
-    ThreadPool(int numThreads)
+    ThreadPool(int numThreads = std::thread::hardware_concurrency()):
+        _threads(),
+        _terminationRequested(false),
+        _tasksMutex(),
+        _tasksCondVar(),
+        _tasks()
     {
+        if (numThreads < 1)
+        {
+            throw ThreadPoolException("Number of threads must be greater than 0.");
+        }
         for (size_t i = 0; i < numThreads; ++i)
         {
             auto t = std::make_unique<std::thread>(&ThreadPool::threadLoop, this);
@@ -35,23 +45,10 @@ public:
 
     ~ThreadPool()
     {
+        requestTermination();
+        for (auto& t : _threads)
         {
-            // discard any pending tasks && flags threads to terminate
-            std::scoped_lock lock(_tasksMutex);
-            _tasks.clear();
-            _terminateRequested = true;
-        }
-
-        // wake-up all threads
-        _tasksCondVar.notify_all();
-
-        // wait for threads to finish
-        for (auto& thread : _threads)
-        {
-            if (thread->joinable())
-            {
-                thread->join();
-            }
+            t->join();
         }
     }
 
@@ -71,49 +68,57 @@ public:
     }
 
 private:
-    // collection of treads
+    // thread control
     std::list<std::unique_ptr<std::thread>> _threads;
+    bool _terminationRequested;
 
-    // collection of tasks
+    // task control
     std::mutex _tasksMutex;
     std::condition_variable _tasksCondVar;
-    std::list<Task> _tasks;
+    std::list<std::function<void()>> _tasks;
 
-    // termination flag
-    bool _terminateRequested{false};
-
-    // thread loop
+    // thread main function
     void threadLoop()
     {
-        LOGGER() << "Thread " << std::this_thread::get_id() << " started." << std::endl;
+        auto threadId = std::this_thread::get_id();
+        LOGGER() << "Thread " << threadId << " started." << std::endl;
         while (true)
         {
-            Task taskToRun;
+            std::function<void()> taskToRun;
             {
                 std::unique_lock<std::mutex> lock(_tasksMutex);
                 // wait for a task to be added or for the thread to be cancelled
                 _tasksCondVar.wait(lock, [this] ()
                 {
-                    return !_tasks.empty() || _terminateRequested;
+                    return !_tasks.empty() || _terminationRequested;
                 });
-                if (_terminateRequested)
+                if (_terminationRequested)
                 {
-                    // abort thread
-                    LOGGER() << "Thread " << std::this_thread::get_id() << " terminated." << std::endl;
+                    LOGGER() << "Thread " << threadId << " exiting." << std::endl;
                     return;
                 }
                 if (_tasks.empty())
                 {
-                    // keep waiting
                     continue;
                 }
-                // pick a task to run
                 taskToRun = std::move(_tasks.front());
                 _tasks.pop_front();
             }
             // run task
             taskToRun();
         }
+    }
+
+    // discard any pending tasks && flags threads to terminate
+    void requestTermination()
+    {
+        {
+            std::lock_guard<std::mutex> lock(_tasksMutex);
+            _tasks.clear();
+            _terminationRequested = true;
+        }
+        // wake-up all threads
+        _tasksCondVar.notify_all();
     }
 };
 
