@@ -58,7 +58,7 @@ public:
         std::promise<bool> p;
         std::shared_ptr<std::promise<bool>> promise = std::make_shared<std::promise<bool>>();
         {
-            std::unique_lock<std::mutex> lock(_tasksMutex);
+            std::lock_guard<std::mutex> lock(_tasksMutex);
             _tasks.emplace_back([task, promise]()
             {
                 try
