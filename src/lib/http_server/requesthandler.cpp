@@ -16,10 +16,20 @@ RequestHandler::~RequestHandler()
     LOGGER() << "<<<<<< Request Handler shutting down." << std::endl;
 }
 
-void RequestHandler::start()
+bool RequestHandler::start()
 {
-    _request = _socket->read();
-    std::cout << _request << std::endl;
+    try
+    {
+        _request = _socket->read();
+        std::cout << _request << std::endl;
+        return true;
+
+    }
+    catch (const std::exception& e)
+    {
+        LOGGER() << e.what() << std::endl;
+        return false;
+    }
 }
 
 } // namespace http_server

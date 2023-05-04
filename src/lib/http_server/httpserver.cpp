@@ -25,6 +25,7 @@ HTTPServer::~HTTPServer()
 {
     LOGGER() << "<<<<<< HTTP server shutting down." << std::endl;
     _threadPool.reset();
+    _requestHandlerFutures.clear();
 }
 
 void HTTPServer::run()
@@ -41,8 +42,8 @@ void HTTPServer::run()
             // create request handler
             auto requestHandler = std::make_shared<RequestHandler>(std::move(requestSocket));
 
-            // add task to threadpool
-            _threadPool->addTask(std::bind(&RequestHandler::start, requestHandler));
+            // add task to threadpool (and store future)
+            _requestHandlerFutures.emplace_back(_threadPool->addTask(std::bind<bool>(&RequestHandler::start, requestHandler)));
         }
     }
     LOGGER() << "Main loop end." << std::endl;

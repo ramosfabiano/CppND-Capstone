@@ -4,6 +4,7 @@
 #include <list>
 #include <functional>
 #include <mutex>
+#include <future>
 #include <condition_variable>
 #include "logger.hpp"
 #include "baseexception.hpp"
@@ -22,6 +23,7 @@ IMPLEMENT_CUSTOM_EXCEPTION(ThreadPoolException, "ThreadPoolException")
 class ThreadPool
 {
 public:
+
     ThreadPool(int numThreads = std::thread::hardware_concurrency()):
         _threads(),
         _terminationRequested(false),
@@ -51,13 +53,27 @@ public:
     }
 
     // enqueues a task
-    void addTask(std::function<void()> f)
+    std::future<bool> addTask(std::function<bool()> task)
     {
+        std::promise<bool> p;
+        std::shared_ptr<std::promise<bool>> promise = std::make_shared<std::promise<bool>>();
         {
             std::unique_lock<std::mutex> lock(_tasksMutex);
-            _tasks.emplace_back(f);
+            _tasks.emplace_back([task, promise]()
+            {
+                try
+                {
+                    promise->set_value(std::invoke(task));
+                }
+                catch (std::exception& e)
+                {
+                    LOGGER() << "Exception in task: " << e.what() << std::endl;
+                    promise->set_value(false);
+                }
+            });
         }
         _tasksCondVar.notify_one();
+        return promise->get_future();
     }
 
 private:

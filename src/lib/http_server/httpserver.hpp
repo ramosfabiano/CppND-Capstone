@@ -39,6 +39,9 @@ private:
     // folder to serve files from
     std::string _folder;
 
+    // return values for request handler threads
+    std::list<std::future<bool>> _requestHandlerFutures;
+
     // threadpool to service requests
     std::unique_ptr<threadpool::ThreadPool> _threadPool;
 
