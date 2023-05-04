@@ -10,8 +10,8 @@ HTTPServer::HTTPServer(int port, std::string& folder):
     _socket(port),
     _folder(folder),
     _cancelled(false),
-    // handling request tasks is an I/O bounded task, so the threadpool should be created with more logical threads than number of hardware threads
-    _threadPool(std::make_unique<threadpool::ThreadPool>(std::thread::hardware_concurrency() * 2))
+    // handling request tasks is an I/O bounded task, so the threadpool could be created with more logical threads than number of hardware threads
+    _threadPool(std::make_unique<threadpool::ThreadPool>(std::thread::hardware_concurrency()))
 {
     if (!std::filesystem::exists(_folder))
     {
@@ -25,7 +25,6 @@ HTTPServer::~HTTPServer()
 {
     LOGGER() << "<<<<<< HTTP server shutting down." << std::endl;
     _threadPool.reset();
-    _requestHandlers.clear();
 }
 
 void HTTPServer::run()
@@ -40,10 +39,10 @@ void HTTPServer::run()
             auto requestSocket = _socket.acceptConnection();
 
             // create request handler
-            auto& requestHandler = _requestHandlers.emplace_back(std::make_shared<RequestHandler>(std::move(requestSocket)));
+            auto requestHandler = std::make_shared<RequestHandler>(std::move(requestSocket));
 
             // add task to threadpool
-            _threadPool->addTask(&RequestHandler::start, requestHandler);
+            _threadPool->addTask(std::bind(&RequestHandler::start, requestHandler));
         }
     }
     LOGGER() << "Main loop end." << std::endl;

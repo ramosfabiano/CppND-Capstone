@@ -1,12 +1,9 @@
 #pragma once
 
-#include <memory>
 #include <thread>
 #include <list>
-#include <map>
 #include <functional>
 #include <mutex>
-#include <future>
 #include <condition_variable>
 #include "logger.hpp"
 #include "baseexception.hpp"
@@ -36,6 +33,7 @@ public:
         {
             throw ThreadPoolException("Number of threads must be greater than 0.");
         }
+        LOGGER() << "Creating thread pool with " << numThreads << " threads." << std::endl;
         for (size_t i = 0; i < numThreads; ++i)
         {
             auto t = std::make_unique<std::thread>(&ThreadPool::threadLoop, this);
@@ -52,17 +50,12 @@ public:
         }
     }
 
-    // mimics std::thread() constructor
-    template<class Function, class... Args>
-    void addTask (Function&& f, Args&&... args )
+    // enqueues a task
+    void addTask(std::function<void()> f)
     {
-        auto task = std::make_shared<std::packaged_task<void()>>(std::bind(std::forward<Function>(f), std::forward<Args>(args)...));
         {
             std::unique_lock<std::mutex> lock(_tasksMutex);
-            _tasks.emplace_back([task]()
-            {
-                (*task)();
-            });
+            _tasks.emplace_back(f);
         }
         _tasksCondVar.notify_one();
     }

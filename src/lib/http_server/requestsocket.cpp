@@ -20,17 +20,26 @@ RequestSocket::RequestSocket(int socketFileDescriptor) :
         close(_socketFileDescriptor);
         throw RequestSocketException("ioctl() failed.");
     }
-    LOGGER() << "Request socket created." << std::endl;
+    //LOGGER() << "Request socket created." << std::endl;
 }
 
 RequestSocket::~RequestSocket()
 {
-    close(_socketFileDescriptor);
-    LOGGER() << "Request socket closed." << std::endl;
+    if (_socketFileDescriptor > 0)
+    {
+        shutdown(_socketFileDescriptor, SHUT_RDWR);
+        close(_socketFileDescriptor);
+    }
+    //LOGGER() << "Request socket closed." << std::endl;
 }
 
 bool RequestSocket::peek(int timeOutSec) const
 {
+    if (_socketFileDescriptor <= 0)
+    {
+        throw RequestSocketException("Socket is closed.");
+    }
+
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
     struct timeval timeout;
@@ -47,34 +56,16 @@ bool RequestSocket::peek(int timeOutSec) const
     return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
 }
 
-// copy constructor
-RequestSocket::RequestSocket(const RequestSocket &other) :
-    _socketFileDescriptor(other._socketFileDescriptor)
-{
-    std::cout << "RequestSocket Copy Constructor" << std::endl;
-}
-
-// copy assignment operator
-RequestSocket &RequestSocket::operator=(const RequestSocket &other)
-{
-    std::cout << "RequestSocket Copy Assignment Operator" << std::endl;
-    close(_socketFileDescriptor);
-    _socketFileDescriptor = other._socketFileDescriptor;
-    return *this;
-}
-
 // move constructor
 RequestSocket::RequestSocket(RequestSocket &&other):
     _socketFileDescriptor(other._socketFileDescriptor)
 {
-    std::cout << "RequestSocket Move Constructor" << std::endl;
     other._socketFileDescriptor = -1;
 }
 
 // move assignment operator
 RequestSocket &RequestSocket::operator=(RequestSocket &&other)
 {
-    std::cout << "RequestSocket Move Assignment Operator" << std::endl;
     _socketFileDescriptor = other._socketFileDescriptor;
     other._socketFileDescriptor = -1;
     return *this;
@@ -82,7 +73,12 @@ RequestSocket &RequestSocket::operator=(RequestSocket &&other)
 
 std::string RequestSocket::read()
 {
-    LOGGER() << "Request socket read()." << std::endl;
+    if (_socketFileDescriptor <= 0)
+    {
+        throw RequestSocketException("Socket is closed.");
+    }
+
+    //LOGGER() << "Request socket read()." << std::endl;
     std::string request;
     while(peek())
     {

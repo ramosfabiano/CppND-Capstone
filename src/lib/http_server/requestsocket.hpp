@@ -21,8 +21,8 @@ public:
     ~RequestSocket();
 
     // copy semantics
-    RequestSocket(const RequestSocket &other);
-    RequestSocket &operator=(const RequestSocket &other);
+    RequestSocket(const RequestSocket &other) = delete;
+    RequestSocket &operator=(const RequestSocket &other) = delete;
 
     // move semantics
     RequestSocket(RequestSocket &&other);

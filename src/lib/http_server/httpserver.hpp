@@ -39,9 +39,6 @@ private:
     // folder to serve files from
     std::string _folder;
 
-    // collection of request handlers
-    std::list<std::shared_ptr<RequestHandler>> _requestHandlers;
-
     // threadpool to service requests
     std::unique_ptr<threadpool::ThreadPool> _threadPool;
 

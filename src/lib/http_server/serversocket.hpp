@@ -22,6 +22,14 @@ public:
     ServerSocket(int port);
     ~ServerSocket();
 
+    // copy semantics
+    ServerSocket(const ServerSocket &other) = delete;
+    ServerSocket &operator=(const ServerSocket &other) = delete;
+
+    // move semantics
+    ServerSocket(ServerSocket &&other);
+    ServerSocket& operator=(ServerSocket &&other);
+
     bool peekConnection(int timeOutSec = 5) const;
     std::unique_ptr<RequestSocket> acceptConnection() const;
 

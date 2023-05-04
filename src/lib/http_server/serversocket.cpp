@@ -65,13 +65,39 @@ ServerSocket::ServerSocket(int port) :
 
 ServerSocket::~ServerSocket()
 {
-    shutdown(_socketFileDescriptor, SHUT_RDWR);
-    close(_socketFileDescriptor);
+    if (_socketFileDescriptor > 0)
+    {
+        shutdown(_socketFileDescriptor, SHUT_RDWR);
+        close(_socketFileDescriptor);
+    }
     LOGGER() << "Server socket closed." << std::endl;
+}
+
+// move constructor
+ServerSocket::ServerSocket(ServerSocket &&other):
+    _port(other._port),
+    _socketFileDescriptor(other._socketFileDescriptor)
+{
+    other._socketFileDescriptor = -1;
+}
+
+// move assignment operator
+ServerSocket &ServerSocket::operator=(ServerSocket &&other)
+{
+    _port = other._port;
+    _socketFileDescriptor = other._socketFileDescriptor;
+    other._port = -1;
+    other._socketFileDescriptor = -1;
+    return *this;
 }
 
 bool ServerSocket::peekConnection(int timeOutSec) const
 {
+    if (_socketFileDescriptor <= 0)
+    {
+        throw ServerSocketException("Socket is closed.");
+    }
+
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
     struct timeval timeout;
@@ -90,6 +116,11 @@ bool ServerSocket::peekConnection(int timeOutSec) const
 
 std::unique_ptr<RequestSocket> ServerSocket::acceptConnection() const
 {
+    if (_socketFileDescriptor <= 0)
+    {
+        throw ServerSocketException("Socket is closed.");
+    }
+
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     struct sockaddr_in address;
     int addrlen = sizeof(address);

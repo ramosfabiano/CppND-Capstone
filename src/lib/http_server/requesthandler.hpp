@@ -17,7 +17,7 @@ class RequestHandler
 {
 public:
 
-    RequestHandler(std::unique_ptr<RequestSocket>&& requestSocket);
+    RequestHandler(std::unique_ptr<RequestSocket> requestSocket);
     ~RequestHandler();
 
     void start();
