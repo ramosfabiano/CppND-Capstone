@@ -25,9 +25,13 @@ HTTPServer::~HTTPServer()
 {
     LOGGER() << "HTTP server is shutting down..." << std::endl;
 
+    // make sure no futher requests are accepted
+    _threadPool.reset();
+
+    // present summary
     long failedRequests = 0;
     long sucessfulRequests = 0;
-    
+
     for(auto& future : _requestHandlerFutures)
     {
         auto result = future.get();
@@ -45,8 +49,6 @@ HTTPServer::~HTTPServer()
     LOGGER() << "Total requests: " << (sucessfulRequests + failedRequests) << std::endl;
     LOGGER() << "Sucessful requests: " << sucessfulRequests << std::endl;
     LOGGER() << "Failed requests: " << failedRequests << std::endl;
-
-    _threadPool.reset();
 
     LOGGER() << "HTTP server stopped." << std::endl;
 }
