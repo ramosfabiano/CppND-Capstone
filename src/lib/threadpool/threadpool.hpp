@@ -45,7 +45,9 @@ public:
 
     ~ThreadPool()
     {
-        requestTermination();
+        _terminationRequested = true;
+        _tasksCondVar.notify_all();
+
         for (auto& t : _threads)
         {
             t->join();
@@ -76,10 +78,18 @@ public:
         return promise->get_future();
     }
 
+    // clear all unprocessed tasks
+    void clearTasks()
+    {
+        std::lock_guard<std::mutex> lock(_tasksMutex);
+        _tasks.clear();
+        _tasksCondVar.notify_all();
+    }
+
 private:
     // thread control
     std::list<std::unique_ptr<std::thread>> _threads;
-    bool _terminationRequested;
+    volatile bool _terminationRequested;
 
     // task control
     std::mutex _tasksMutex;
@@ -99,15 +109,16 @@ private:
                 // wait for a task to be added or for the thread to be cancelled
                 _tasksCondVar.wait(lock, [this] ()
                 {
-                    return !_tasks.empty() || _terminationRequested;
+                    return _terminationRequested || !_tasks.empty();
                 });
-                if (_terminationRequested)
-                {
-                    LOGGER() << "Thread " << threadId << " exiting." << std::endl;
-                    return;
-                }
+                // only consider termination after all tasks in queue have been processed
                 if (_tasks.empty())
                 {
+                    if (_terminationRequested)
+                    {
+                        LOGGER() << "Thread " << threadId << " exiting." << std::endl;
+                        return;
+                    }
                     continue;
                 }
                 taskToRun = std::move(_tasks.front());
@@ -116,17 +127,6 @@ private:
             // run task
             taskToRun();
         }
-    }
-
-    // discard any pending tasks && flags threads to terminate
-    void requestTermination()
-    {
-        {
-            std::lock_guard<std::mutex> lock(_tasksMutex);
-            _terminationRequested = true;
-        }
-        // wake-up all threads
-        _tasksCondVar.notify_all();
     }
 };
 
