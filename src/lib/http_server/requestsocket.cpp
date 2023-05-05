@@ -33,6 +33,21 @@ RequestSocket::~RequestSocket()
     //LOGGER() << "Request socket closed." << std::endl;
 }
 
+// move constructor
+RequestSocket::RequestSocket(RequestSocket &&other):
+    _socketFileDescriptor(other._socketFileDescriptor)
+{
+    other._socketFileDescriptor = -1;
+}
+
+// move assignment operator
+RequestSocket &RequestSocket::operator=(RequestSocket &&other)
+{
+    _socketFileDescriptor = other._socketFileDescriptor;
+    other._socketFileDescriptor = -1;
+    return *this;
+}
+
 bool RequestSocket::peek(int timeOutSec) const
 {
     if (_socketFileDescriptor <= 0)
@@ -54,21 +69,6 @@ bool RequestSocket::peek(int timeOutSec) const
     // NOLINTEND
 
     return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
-}
-
-// move constructor
-RequestSocket::RequestSocket(RequestSocket &&other):
-    _socketFileDescriptor(other._socketFileDescriptor)
-{
-    other._socketFileDescriptor = -1;
-}
-
-// move assignment operator
-RequestSocket &RequestSocket::operator=(RequestSocket &&other)
-{
-    _socketFileDescriptor = other._socketFileDescriptor;
-    other._socketFileDescriptor = -1;
-    return *this;
 }
 
 std::string RequestSocket::read()

@@ -11,7 +11,7 @@ HTTPServer::HTTPServer(int port, std::string& folder):
     _folder(folder),
     _stopRequested(false),
     // handling request tasks is an I/O bounded task, so the threadpool could be created with more logical threads than number of hardware threads
-    _threadPool(std::make_unique<threadpool::ThreadPool>(std::thread::hardware_concurrency()))
+    _threadPool(std::make_unique<threadpool::ThreadPool>(std::thread::hardware_concurrency() * 2))
 {
     if (!std::filesystem::exists(_folder))
     {

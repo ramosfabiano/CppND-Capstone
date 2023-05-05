@@ -11,12 +11,12 @@ RequestHandler::RequestHandler(std::unique_ptr<RequestSocket> requestSocket):
     _socket(std::move(requestSocket)),
     _requestId(getNextRequestId())
 {
-    //LOGGER() << ">>>>>>> Request Handler started." << std::endl;
+    LOGGER() << ">>>>>>> Request Handler #" << _requestId <<  " started." << std::endl;
 }
 
 RequestHandler::~RequestHandler()
 {
-    //LOGGER() << "<<<<<< Request Handler shutting down." << std::endl;
+    LOGGER() << ">>>>>>> Request Handler #" << _requestId <<  " finished." << std::endl;
 }
 
 bool RequestHandler::start()
@@ -24,9 +24,8 @@ bool RequestHandler::start()
     try
     {
         _request = _socket->read();
-        std::cout << _request << std::endl;
+        //std::cout << _request << std::endl;
         return true;
-
     }
     catch (const std::exception& e)
     {
