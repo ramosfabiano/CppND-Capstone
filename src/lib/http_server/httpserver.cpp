@@ -30,7 +30,7 @@ HTTPServer::~HTTPServer()
 
 void HTTPServer::run()
 {
-    LOGGER() << "Main loop started." << std::endl;
+    LOGGER() << "HTTPServer main loop started." << std::endl;
     // loop until cancelled
     while(!_stopRequested)
     {
@@ -46,12 +46,12 @@ void HTTPServer::run()
             _requestHandlerFutures.emplace_back(_threadPool->addTask(std::bind<bool>(&RequestHandler::start, requestHandler)));
         }
     }
-    LOGGER() << "Main loop end." << std::endl;
+    LOGGER() << "HTTPServer main loop end." << std::endl;
 }
 
 void HTTPServer::stop()
 {
-    LOGGER() << "Main loop interruption requested." << std::endl;
+    LOGGER() << "HTTPServer stop requested." << std::endl;
     _stopRequested = true;
 }
 

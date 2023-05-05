@@ -123,7 +123,6 @@ private:
     {
         {
             std::lock_guard<std::mutex> lock(_tasksMutex);
-            _tasks.clear();
             _terminationRequested = true;
         }
         // wake-up all threads

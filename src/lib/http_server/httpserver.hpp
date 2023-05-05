@@ -46,7 +46,7 @@ private:
     std::unique_ptr<threadpool::ThreadPool> _threadPool;
 
     // main loop interruption flag
-    bool _stopRequested{false};
+    volatile bool _stopRequested;
 
 };
 
