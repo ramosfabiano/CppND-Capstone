@@ -40,11 +40,13 @@ HTTPServer::~HTTPServer()
         }
     }
     _requestHandlerFutures.clear();
+
     LOGGER() << "Total requests: " << (sucessfulRequests + failedRequests) << std::endl;
     LOGGER() << "Sucessful requests: " << sucessfulRequests << std::endl;
     LOGGER() << "Failed requests: " << failedRequests << std::endl;
 
     _threadPool.reset();
+    
     LOGGER() << "HTTP server stopped." << std::endl;
 }
 
