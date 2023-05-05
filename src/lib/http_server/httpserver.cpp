@@ -27,6 +27,7 @@ HTTPServer::~HTTPServer()
 
     long failedRequests = 0;
     long sucessfulRequests = 0;
+    
     for(auto& future : _requestHandlerFutures)
     {
         auto result = future.get();
@@ -46,7 +47,7 @@ HTTPServer::~HTTPServer()
     LOGGER() << "Failed requests: " << failedRequests << std::endl;
 
     _threadPool.reset();
-    
+
     LOGGER() << "HTTP server stopped." << std::endl;
 }
 
