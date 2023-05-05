@@ -15,7 +15,7 @@ static std::unique_ptr<http_server::HTTPServer> httpServer_; // NOLINT(cppcoregu
 
 void signalHandler(int sig)
 {
-    httpServer_->cancel();
+    httpServer_->stop();
 }
 
 int main(int argc, char **argv)

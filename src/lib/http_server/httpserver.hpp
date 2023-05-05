@@ -4,7 +4,6 @@
 #include <list>
 #include <memory>
 #include <thread>
-#include <mutex>
 #include "serversocket.hpp"
 #include "requesthandler.hpp"
 #include "threadpool.hpp"
@@ -30,7 +29,7 @@ public:
     void run();
 
     // set to interrupt main loop
-    void cancel();
+    void stop();
 
 private:
 
@@ -40,19 +39,14 @@ private:
     // folder to serve files from
     std::string _folder;
 
-    // main loop interruption flag
-    bool _cancelled{false};
-
     // return values for request handler threads
-    std::mutex _requestHandlerFuturesMutex;
-    std::condition_variable _requestHandlerFuturesCondVar;
-    std::unique_ptr<std::thread> _requestHandlerFuturesCleanupThread;
     std::list<std::future<bool>> _requestHandlerFutures;
-    void requestHandlerFuturesCheck();
 
     // threadpool to service requests
     std::unique_ptr<threadpool::ThreadPool> _threadPool;
 
+    // main loop interruption flag
+    bool _stopRequested{false};
 
 };
 
