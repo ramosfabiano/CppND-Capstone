@@ -1,19 +1,22 @@
 #include <filesystem>
 #include <stdexcept>
+#include <limits>
 #include "logger.hpp"
 #include "requesthandler.hpp"
 
 namespace http_server
 {
 
-RequestHandler::RequestHandler(std::unique_ptr<RequestSocket> requestSocket): _socket(std::move(requestSocket))
+RequestHandler::RequestHandler(std::unique_ptr<RequestSocket> requestSocket):
+    _socket(std::move(requestSocket)),
+    _requestId(getNextRequestId())
 {
-    LOGGER() << ">>>>>>> Request Handler started." << std::endl;
+    //LOGGER() << ">>>>>>> Request Handler started." << std::endl;
 }
 
 RequestHandler::~RequestHandler()
 {
-    LOGGER() << "<<<<<< Request Handler shutting down." << std::endl;
+    //LOGGER() << "<<<<<< Request Handler shutting down." << std::endl;
 }
 
 bool RequestHandler::start()
@@ -30,6 +33,17 @@ bool RequestHandler::start()
         LOGGER() << e.what() << std::endl;
         return false;
     }
+}
+
+int RequestHandler::getRequestId() const
+{
+    return _requestId;
+}
+
+int RequestHandler::getNextRequestId()
+{
+    static int nextRequestId_ = 0;
+    return ++nextRequestId_ % std::numeric_limits<int>::max();
 }
 
 } // namespace http_server

@@ -21,6 +21,7 @@ public:
     ~RequestHandler();
 
     bool start();
+    int getRequestId() const;
 
 private:
 
@@ -28,6 +29,9 @@ private:
 
     std::string _request;
 
+    int _requestId;
+
+    static int getNextRequestId();
 };
 
 } // namespace http_server
