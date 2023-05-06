@@ -98,4 +98,27 @@ std::string RequestSocket::read()
     return std::move(request);
 }
 
+void RequestSocket::write(const std::string& data) const
+{
+    if (_socketFileDescriptor <= 0)
+    {
+        throw RequestSocketException("Socket is closed.");
+    }
+
+    //LOGGER() << "Request socket write()." << std::endl;
+    long dataLen = (long)data.length();
+    long totalBytesSent = 0;
+
+    while (totalBytesSent < dataLen)
+    {
+        long bytesSent = send(_socketFileDescriptor, &data[totalBytesSent], dataLen - totalBytesSent, 0);
+        if (bytesSent == -1)
+        {
+            throw RequestSocketException("Failed to write to socket.");
+        }
+        totalBytesSent += bytesSent;
+    }
+}
+
+
 } // namespace http_server

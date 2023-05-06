@@ -68,7 +68,7 @@ void HTTPServer::run()
             auto requestHandler = std::make_shared<RequestHandler>(std::move(requestSocket));
 
             // add task to threadpool and store future
-            _requestHandlerFutures.emplace_back(_threadPool->addTask(std::bind<bool>(&RequestHandler::start, requestHandler)));
+            _requestHandlerFutures.emplace_back(_threadPool->addTask(std::bind<bool>(&RequestHandler::handleRequest, requestHandler)));
         }
     }
     LOGGER() << "HTTPServer main loop end." << std::endl;

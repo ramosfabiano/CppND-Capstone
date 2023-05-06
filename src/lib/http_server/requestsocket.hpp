@@ -29,6 +29,7 @@ public:
     RequestSocket& operator=(RequestSocket &&other);
 
     std::string read();
+    void write(const std::string& data) const;
 
 private:
 
