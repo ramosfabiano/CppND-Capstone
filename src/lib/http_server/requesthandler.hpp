@@ -17,7 +17,7 @@ class RequestHandler
 {
 public:
 
-    RequestHandler(std::unique_ptr<RequestSocket> requestSocket);
+    RequestHandler(std::unique_ptr<RequestSocket> requestSocket, std::string& sourceFolder);
     ~RequestHandler();
 
     bool handleRequest();
@@ -28,7 +28,7 @@ private:
     std::unique_ptr<RequestSocket> _socket;
 
     std::string _request;
-
+    std::string _folder;
     int _requestId;
 
     static int getNextRequestId();

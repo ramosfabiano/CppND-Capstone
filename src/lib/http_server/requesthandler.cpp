@@ -1,14 +1,19 @@
+#include <fstream>
+#include <sstream>
+#include <iostream>
 #include <filesystem>
 #include <stdexcept>
 #include <limits>
+#include <vector>
 #include "logger.hpp"
 #include "requesthandler.hpp"
 
 namespace http_server
 {
 
-RequestHandler::RequestHandler(std::unique_ptr<RequestSocket> requestSocket):
+RequestHandler::RequestHandler(std::unique_ptr<RequestSocket> requestSocket, std::string& sourceFolder):
     _socket(std::move(requestSocket)),
+    _folder(sourceFolder),
     _requestId(getNextRequestId())
 {
     //LOGGER() << "Request Handler #" << _requestId <<  " started." << std::endl;
@@ -28,12 +33,17 @@ bool RequestHandler::handleRequest()
         //std::cout << _request << std::endl;
 
         std::string response;
+
         response += "HTTP/1.1 404 Not Found\n";
         response += "Date: Sun, 05 May 2023 10:36:20 GMT\n";
         response += "Server: HTTServer Capstone\n";
         response += "Content-Length: 230\n";
         response += "Connection: Closed\n";
         response += "Content-Type: text/html; charset=iso-8859-1\n";
+
+
+        //std::cout << response << std::endl;
+        _socket->write(response);
 
         return true;
     }
