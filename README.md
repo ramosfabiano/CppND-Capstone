@@ -5,8 +5,6 @@ This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.
 For the capstone, I have decided to implement a (simple) HTTP server.  An HTTP server is a well-known application, and offers excelent grounds for showcasing the OOP, Memory Management and Concurrency topics explored throughout the course.
 
 
-![Screenshot](http_server.png)
-
 ## Overview
 
 Of course, implementing a full-fledged HTTP server from scratch would be too big of challenge and would extend far beyond the purpose of this capstone. 
@@ -66,14 +64,11 @@ Then with the server running, open a web browser and point to `http://localhost:
 
 To interrupt the server, press `Ctrl+C`.
 
-**TODO: add a folder with a simple web site as an example.**
-
-**TODO: add gif dual window browser and server on a terminal**
-
+![Screenshot](http_server.png)
 
 ## Implementation Details
 
-**TODO: complete as the implemenation moves on...**
+**TODO: complete **
 
 After being launched, the server binds to the indicated port and listen for connections.
 
