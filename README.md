@@ -89,7 +89,7 @@ These are the rubric items addressed by this project:
 
 **Loops, Functions, I/O**
 - [x] The project demonstrates an understanding of C++ functions and control structures.
-- [ ] The project reads data from a file and process the data, or the program writes data to a file.
+- [x] The project reads data from a file and process the data, or the program writes data to a file. [See here.](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/http_server/getmethodhandler.cpp#L100)
 - [x] The project accepts user input and processes the input. [See here.](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/app/main.cpp#L20)
 
 **Object Oriented Programming**
