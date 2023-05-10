@@ -4,6 +4,9 @@ This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.
 
 For the capstone, I have decided to implement a (simple) HTTP server.  An HTTP server is a well-known application, and offers excelent grounds for showcasing the OOP, Memory Management and Concurrency topics explored throughout the course.
 
+
+![Screenshot](http_server.png)
+
 ## Overview
 
 Of course, implementing a full-fledged HTTP server from scratch would be too big of challenge and would extend far beyond the purpose of this capstone. 

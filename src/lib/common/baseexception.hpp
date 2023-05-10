@@ -13,17 +13,16 @@ namespace common
 class BaseException : public std::exception
 {
 public:
-    BaseException(const char* prefix, const char* errMessage): _prefix(prefix), _message(errMessage) {}
-    BaseException(const char* prefix, const std::string& errMessage):  _prefix(prefix), _message(errMessage) {}
-    virtual ~BaseException() {}
-    virtual const char* what ()
+    explicit BaseException(std::string errMessage) : _errMessage(errMessage) {}
+    virtual ~BaseException() throw () {}
+
+    virtual char const* what() const  throw ()
     {
-        _message = "[" + _prefix + "]: " + _message;
-        return _message.c_str();
+        return _errMessage.c_str();
     }
-private:
-    std::string _prefix;
-    std::string _message;
+
+protected:
+    std::string _errMessage;
 };
 
 
@@ -31,8 +30,8 @@ private:
     class name : public common::BaseException                                                     \
     {                                                                                             \
     public:                                                                                       \
-        name(const char* errMessage) : common::BaseException(prefix, errMessage) {}               \
-        name(const std::string& errMessage) : common::BaseException(prefix, errMessage) {}        \
+        name(const std::string& errMessage) :                                                     \
+            common::BaseException(std::string(prefix) + std::string(": ") + errMessage) {}        \
     };                                                                                            \
 
 

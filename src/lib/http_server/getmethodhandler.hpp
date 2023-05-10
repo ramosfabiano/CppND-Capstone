@@ -14,7 +14,7 @@ public:
     GETMethodHandler();
     virtual ~GETMethodHandler() = default;
 
-    std::string handleMethod(std::string& resourcePath) const override;
+    std::string handleMethod(std::string& resourceURI) const override;
 
 private:
     static bool hasFileExtension(std::string& resourcePath, std::string extension);

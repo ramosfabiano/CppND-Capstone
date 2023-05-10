@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <sstream>
 #include "getmethodhandler.hpp"
+#include <logger.hpp>
 
 namespace http_server
 {
@@ -11,8 +12,10 @@ GETMethodHandler::GETMethodHandler()
 {
 }
 
-std::string GETMethodHandler::handleMethod(std::string& resourcePath) const
+std::string GETMethodHandler::handleMethod(std::string& resourceURI) const
 {
+    auto resourcePath = extractPathFromURI(resourceURI);
+
     auto response = HEADMethodHandler::handleMethod(resourcePath);
 
     //  text/html
@@ -24,6 +27,11 @@ std::string GETMethodHandler::handleMethod(std::string& resourcePath) const
     else if (hasFileExtension(resourcePath, "txt"))
     {
         response += "Content-Type: text/plain; charset=utf-8\n";
+    }
+    //  text/javascript
+    else if (hasFileExtension(resourcePath, "js"))
+    {
+        response += "Content-Type: text/javascript; charset=utf-8\n";
     }
     //  text/css
     else if (hasFileExtension(resourcePath, "css"))
@@ -44,6 +52,16 @@ std::string GETMethodHandler::handleMethod(std::string& resourcePath) const
     else if (hasFileExtension(resourcePath, "ico"))
     {
         response += "Content-Type: image/x-icon;\n";
+    }
+    // font/ttf
+    else if (hasFileExtension(resourcePath, "ttf"))
+    {
+        response += "Content-Type: font/ttf;\n";
+    }
+    // font/woff
+    else if (hasFileExtension(resourcePath, "woff"))
+    {
+        response += "Content-Type: font/woff;\n";
     }
     // unsupported
     else

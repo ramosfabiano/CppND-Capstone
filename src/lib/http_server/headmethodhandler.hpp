@@ -17,7 +17,7 @@ public:
     HEADMethodHandler();
     virtual ~HEADMethodHandler() = default;
 
-    virtual std::string handleMethod(std::string& resourcePath) const override;
+    virtual std::string handleMethod(std::string& resourceURI) const override;
 };
 
 } // namespace http_server

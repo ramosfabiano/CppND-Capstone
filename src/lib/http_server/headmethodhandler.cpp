@@ -13,8 +13,10 @@ HEADMethodHandler::HEADMethodHandler()
 {
 }
 
-std::string HEADMethodHandler::handleMethod(std::string& resourcePath) const
+std::string HEADMethodHandler::handleMethod(std::string& resourceURI) const
 {
+    auto resourcePath = extractPathFromURI(resourceURI);
+
     std::string response;
 
     try
