@@ -15,6 +15,7 @@ HEADMethodHandler::HEADMethodHandler()
 
 std::string HEADMethodHandler::handleMethod(std::string& resourceURI) const
 {
+    // disregards any query string or fragments
     auto resourcePath = extractPathFromURI(resourceURI);
 
     std::string response;
