@@ -25,25 +25,25 @@ ServerSocket::ServerSocket(int port) :
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
 
     // make socket reusable
-    if (setsockopt(_socketFileDescriptor, SOL_SOCKET,  SO_REUSEADDR, (char *)&optval, sizeof(optval)) < 0)
+    if (setsockopt(_socketFileDescriptor, SOL_SOCKET,  SO_REUSEADDR, (char *)&optval, sizeof(optval)) < 0)  // NOLINT
     {
         close(_socketFileDescriptor);
         throw ServerSocketException("setsockopt() failed.");
     }
 
     // make socket not-blocking
-    if (ioctl(_socketFileDescriptor, FIONBIO, (char *)&optval) < 0)
+    if (ioctl(_socketFileDescriptor, FIONBIO, (char *)&optval) < 0)  // NOLINT
     {
         close(_socketFileDescriptor);
         throw ServerSocketException("ioctl() failed.");
     }
 
     // bind to port
-    struct sockaddr_in address;
+    struct sockaddr_in address{0};
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(_port);
-    if (bind(_socketFileDescriptor, (struct sockaddr*)(&address), sizeof(address)) < 0)
+    if (bind(_socketFileDescriptor, (struct sockaddr*)(&address), sizeof(address)) < 0)  // NOLINT
     {
         close(_socketFileDescriptor);
         std::string errMsg = "Failed binding to socket to port " + std::to_string(_port);
@@ -99,9 +99,9 @@ bool ServerSocket::peekConnection(int timeOutSec) const
 
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
-    struct timeval timeout;
-    FD_ZERO(&set);
-    FD_SET(_socketFileDescriptor, &set);
+    struct timeval timeout{0};
+    FD_ZERO(&set);                        // NOLINT
+    FD_SET(_socketFileDescriptor, &set);  // NOLINT
     timeout.tv_sec = timeOutSec;
     timeout.tv_usec = 0;
     // rc < 0: error
@@ -110,7 +110,7 @@ bool ServerSocket::peekConnection(int timeOutSec) const
     int rc = select(_socketFileDescriptor + 1, &set, NULL, NULL, &timeout);
     // NOLINTEND
 
-    return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
+    return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);  // NOLINT
 }
 
 std::unique_ptr<RequestSocket> ServerSocket::acceptConnection() const
@@ -121,12 +121,12 @@ std::unique_ptr<RequestSocket> ServerSocket::acceptConnection() const
     }
 
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
-    struct sockaddr_in address;
+    struct sockaddr_in address{0}; 
     int addrlen = sizeof(address);
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(_port);
-    int rc = accept(_socketFileDescriptor, (struct sockaddr*)&address, (socklen_t*)&addrlen);
+    int rc = accept(_socketFileDescriptor, (struct sockaddr*)&address, (socklen_t*)&addrlen);  // NOLINT
     if (rc < 0)
     {
         assert(errno != EWOULDBLOCK); // should not happen, as we peeked before with select()

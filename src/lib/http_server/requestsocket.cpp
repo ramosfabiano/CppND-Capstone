@@ -57,9 +57,9 @@ bool RequestSocket::peek(int timeOutSec) const
 
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
-    struct timeval timeout;
-    FD_ZERO(&set);
-    FD_SET(_socketFileDescriptor, &set);
+    struct timeval timeout{0};
+    FD_ZERO(&set);                       // NOLINT
+    FD_SET(_socketFileDescriptor, &set); // NOLINT
     timeout.tv_sec = timeOutSec;
     timeout.tv_usec = 0;
     // rc < 0: error
@@ -68,7 +68,7 @@ bool RequestSocket::peek(int timeOutSec) const
     int rc = select(_socketFileDescriptor + 1, &set, NULL, NULL, &timeout);
     // NOLINTEND
 
-    return rc > 0 && FD_ISSET(_socketFileDescriptor, &set);
+    return rc > 0 && FD_ISSET(_socketFileDescriptor, &set); // NOLINT
 }
 
 std::string RequestSocket::read()
