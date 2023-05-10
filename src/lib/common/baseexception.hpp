@@ -6,9 +6,9 @@ namespace common
 {
 
 /*
-    BaseException
+    BaseException Class.
 
-    Allows custom prefixed exception.
+    All custom exceptions should inherit from this class.
 */
 class BaseException : public std::exception
 {
@@ -26,6 +26,9 @@ protected:
 };
 
 
+/*
+    Macro to quickly implement a custom exception class (prefixed with a custom string).
+*/
 #define IMPLEMENT_CUSTOM_EXCEPTION(name, prefix)                                                  \
     class name : public common::BaseException                                                     \
     {                                                                                             \
@@ -33,6 +36,5 @@ protected:
         name(const std::string& errMessage) :                                                     \
             common::BaseException(std::string(prefix) + std::string(": ") + errMessage) {}        \
     };                                                                                            \
-
 
 } // namespace http_server

@@ -15,9 +15,11 @@ namespace logger
 {
 
 /*
-    Logger.
+    Logger class.
 
     Singleton, thread-safe.
+
+    A different message buffer is keep for each calling thread.
 */
 class Logger
 {

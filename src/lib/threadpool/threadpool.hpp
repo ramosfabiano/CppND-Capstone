@@ -18,7 +18,7 @@ IMPLEMENT_CUSTOM_EXCEPTION(ThreadPoolException, "ThreadPoolException")
 /*
     ThreadPool
 
-    Manages a pool of worker threads.
+    Manages a pool of worker threads to handle HTTP requests.
 */
 class ThreadPool
 {

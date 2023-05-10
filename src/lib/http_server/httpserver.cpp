@@ -31,7 +31,6 @@ HTTPServer::~HTTPServer()
     // present summary
     long failedRequests = 0;
     long sucessfulRequests = 0;
-
     for(auto& future : _requestHandlerFutures)
     {
         auto result = future.get();
@@ -45,7 +44,6 @@ HTTPServer::~HTTPServer()
         }
     }
     _requestHandlerFutures.clear();
-
     LOGGER() << "Total requests: " << (sucessfulRequests + failedRequests) << std::endl;
     LOGGER() << "Sucessful requests: " << sucessfulRequests << std::endl;
     LOGGER() << "Failed requests: " << failedRequests << std::endl;

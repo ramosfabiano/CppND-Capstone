@@ -39,6 +39,7 @@ bool RequestHandler::handleRequest()
         std::string version;
         std::stringstream requestStream(_request);
 
+        // HTTP method
         requestStream >> method;
         if (method != "GET" && method != "HEAD")
         {
@@ -46,6 +47,7 @@ bool RequestHandler::handleRequest()
             return false;
         }
 
+        // resource path
         requestStream >> path;
         if (path == "/")
         {
@@ -53,6 +55,7 @@ bool RequestHandler::handleRequest()
         }
         path = _folder + path;
 
+        // check HTTP version
         requestStream >> version;
         if (version != "HTTP/1.1")
         {
@@ -60,13 +63,11 @@ bool RequestHandler::handleRequest()
             return false;
         }
 
-        //LOGGER() << "Method: '" << method << "'" << std::endl;
-        //LOGGER() << "Path: '" << path << "'" << std::endl;
-        //LOGGER() << "Version: '" << version << "'" << std::endl;
-
+        // instantiate and run the proper method handler though the factory
         auto methodHandler = MethodHandlerFactory::getMethodHandler(method);
         auto response = methodHandler->handleMethod(path);
 
+        // sends the response back to the client
         _socket->write(response);
 
         return true;

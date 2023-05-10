@@ -10,14 +10,22 @@ constexpr int DEFAULT_PORT = 8080;
 constexpr std::string_view DEFAULT_FOLDER = "./site";
 
 
-// we make it global so it can be accessed by the siggnal handler
+// we make it global so it can be accessed by the signal handler
 static std::unique_ptr<http_server::HTTPServer> httpServer_; // NOLINT(cppcoreguidelines-avoid-non-const-global-variables)
 
+/*
+    CTRL+C signal handler.
+*/
 void signalHandler(int sig)
 {
     httpServer_->stop();
 }
 
+/*
+    Main application.
+
+    Parses command line arguments and starts the server.
+*/
 int main(int argc, char **argv)
 {
     int port{DEFAULT_PORT};

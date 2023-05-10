@@ -13,6 +13,8 @@ IMPLEMENT_CUSTOM_EXCEPTION(RequestSocketException, "RequestSocket")
     RequestSocket
 
     Encapsulates a socket file descriptor, used for handling connections.
+
+    The class is constructed from a socket descriptor (as returned by accept()).
 */
 class RequestSocket
 {

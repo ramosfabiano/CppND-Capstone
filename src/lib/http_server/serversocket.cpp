@@ -12,7 +12,6 @@ namespace http_server
 
 ServerSocket::ServerSocket(int port) :
     _port(port),
-    // creates socket
     _socketFileDescriptor(socket(AF_INET, SOCK_STREAM, 0))
 {
     int optval{1};
@@ -138,6 +137,5 @@ std::unique_ptr<RequestSocket> ServerSocket::acceptConnection() const
     // rc is the new socket file descriptor
     return std::make_unique<RequestSocket>(rc);
 }
-
 
 } // namespace http_server

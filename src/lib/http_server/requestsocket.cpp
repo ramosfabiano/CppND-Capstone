@@ -120,5 +120,4 @@ void RequestSocket::write(const std::string& data) const
     }
 }
 
-
 } // namespace http_server

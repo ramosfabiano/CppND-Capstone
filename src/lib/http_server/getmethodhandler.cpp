@@ -14,8 +14,10 @@ GETMethodHandler::GETMethodHandler()
 
 std::string GETMethodHandler::handleMethod(std::string& resourceURI) const
 {
+    // disregards any query string or fragments
     auto resourcePath = extractPathFromURI(resourceURI);
 
+    // first handles as if it was a HEAD request, then adds the resource contents
     auto response = HEADMethodHandler::handleMethod(resourcePath);
 
     //  text/html
@@ -95,6 +97,7 @@ bool GETMethodHandler::hasFileExtension(std::string& resourcePath, std::string e
 
 std::string GETMethodHandler::getResourceContents(std::string& resourcePath)
 {
+    // writes resource content to response
     std::string response = "\n";
     std::ifstream inFile(resourcePath);
     std::stringstream buffer;

@@ -9,17 +9,23 @@ namespace http_server
 
 IMPLEMENT_CUSTOM_EXCEPTION(MethodHandlerException, "MethodHandler")
 
+/*
+    MethodHandler
+
+    Abstract base class for method handlers.
+*/
 class MethodHandler
 {
 public:
+
+    MethodHandler() = default;
     virtual ~MethodHandler() = default;
 
     virtual std::string handleMethod(std::string& resourceURI) const = 0;
 
 protected:
 
-    MethodHandler() = default;
-
+    // returns the current date and time as a formatted string
     std::string currentDateTimeAsString() const
     {
         auto now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -28,7 +34,7 @@ protected:
         return timeStr.data();
     }
 
-    // [/path][?query][#fragment]
+    // extracts the path from the URI schema: [/path][?query][#fragment]
     std::string extractPathFromURI(std::string& uri) const
     {
         std::string pathComponent = uri.substr(0, uri.find_first_of('?'));

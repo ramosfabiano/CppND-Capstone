@@ -11,10 +11,16 @@ namespace http_server
 
 IMPLEMENT_CUSTOM_EXCEPTION(MethodHandlerFactoryException, "MethodHandlerFactory")
 
+/*
+    MethodHandlerFactory
+
+    Instantiates the proper method handler for the request.
+*/
 class MethodHandlerFactory
 {
 public:
 
+    // only GET and HEAD methods are supported for basic operation.
     static std::unique_ptr<MethodHandler> getMethodHandler(std::string& method)
     {
         if (method == "GET")
@@ -27,7 +33,7 @@ public:
         }
         else
         {
-            throw MethodHandlerFactoryException("Method not implemented");
+            throw MethodHandlerFactoryException("Method handler not implemented.");
         }
     }
 };

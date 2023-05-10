@@ -30,7 +30,10 @@ public:
     ServerSocket(ServerSocket &&other);
     ServerSocket& operator=(ServerSocket &&other);
 
+    // checks if a client connection is pending
     bool peekConnection(int timeOutSec = 5) const;
+
+    // accepts a client connection
     std::unique_ptr<RequestSocket> acceptConnection() const;
 
 private:
@@ -41,7 +44,7 @@ private:
     // native socket file descriptor
     int _socketFileDescriptor;
 
-    // max pending connections befgore refusing
+    // max pending connections before start refusing
     const int _maxPendingConnections{10};
 };
 

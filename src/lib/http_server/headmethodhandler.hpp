@@ -11,6 +11,11 @@ namespace http_server
 
 IMPLEMENT_CUSTOM_EXCEPTION(HeadMethodHandlerException, "HEADMethodHandler")
 
+/*
+    HEADMethodHandler class.
+
+    HTTP HEAD method handler.
+*/
 class HEADMethodHandler: public MethodHandler
 {
 public:
