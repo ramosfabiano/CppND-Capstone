@@ -4,16 +4,15 @@ This is my capstone project in the [Udacity C++ Nanodegree Program](https://www.
 
 For the capstone, I have decided to implement a (simple) HTTP server.  An HTTP server is a well-known application, and offers excelent grounds for showcasing the OOP, Memory Management and Concurrency topics explored throughout the course.
 
-
 ## Overview
 
 Of course, implementing a full-fledged HTTP server from scratch would be too big of challenge and would extend far beyond the purpose of this capstone. 
-So, for this course project, we have narrowed down our scope as to implement a basic HTTP server with the minimum set of capabilities enough to serve a static website using HTTP/1.1.
+
+So, for this course project, we have narrowed down our scope as to implement a basic HTTP server with the minimum set of capabilities enough to serve a static website using HTTP/1.1. Only the HTTP GET and HEAD methods are supported.
 
 The HTTP/1.1 protocol is defined in RFCs [7230](http://www.rfc-editor.org/info/rfc7230), [7231](http://www.rfc-editor.org/info/rfc7231), 
 [7232](http://www.rfc-editor.org/info/rfc7232), [7233](http://www.rfc-editor.org/info/rfc7233), 
 [7234](http://www.rfc-editor.org/info/rfc7234) and [7235](http://www.rfc-editor.org/info/rfc7235).
-
 
 ## System Requirements
 
@@ -49,7 +48,6 @@ The project can be build using `make <target>`.  The Makefile has five targets:
 * `clean`: deletes the `build/` and `install/`  directories, i.e., cleans the build artifacts.
 * `format`: formats the source code using the `astyle` tool.
 
-
 ## Running the Server
 
 In order to run the resulting executable manually: 
@@ -58,21 +56,13 @@ In order to run the resulting executable manually:
 
 Where `port` should be the port to listen on and `folder` should be the path to a directory containing the files to be served.  These options are not mandatory and defaults to `8080` and `./site` respectivelly.
 
-The `./site` folder contains a simple web site for demonstration purposes.
+The `./site` folder contains a (very) simple web site for demonstration purposes.
 
 Then with the server running, open a web browser and point to `http://localhost:<port>`, where  `port` should be the port the server is listening on.
 
 To interrupt the server, press `Ctrl+C`.
 
 ![Screenshot](http_server.png)
-
-## Implementation Details
-
-**TODO: complete **
-
-After being launched, the server binds to the indicated port and listen for connections.
-
-Upon receiving a connection, the server handles the request in separate thread.
 
 ## Project Rubric
 
@@ -113,9 +103,9 @@ These are the rubric items addressed by this project:
 
 **Concurrency**
 - [x] The project uses multithreading. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/threadpool/threadpool.hpp#L27)
-- [x] A promise and future is used in the project.[Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L36)
+- [x] A promise and future is used in the project. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L36)
 - [x] A mutex or lock is used in the project. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L38)
-- [x] A condition variable is used in the project.[Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/threadpool/threadpool.hpp#L110)
+- [x] A condition variable is used in the project. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/threadpool/threadpool.hpp#L110)
 
 
 
