@@ -7,6 +7,7 @@
 #include <vector>
 #include "logger.hpp"
 #include "requesthandler.hpp"
+#include "methodhandlerfactory.hpp"
 
 namespace http_server
 {
@@ -30,19 +31,42 @@ bool RequestHandler::handleRequest()
     try
     {
         _request = _socket->read();
-        //std::cout << _request << std::endl;
+        LOGGER() << "\n" << _request << std::endl;
 
-        std::string response;
+        // parse request
+        std::string method;
+        std::string path;
+        std::string version;
+        std::stringstream requestStream(_request);
 
-        response += "HTTP/1.1 404 Not Found\n";
-        response += "Date: Sun, 05 May 2023 10:36:20 GMT\n";
-        response += "Server: HTTServer Capstone\n";
-        response += "Content-Length: 230\n";
-        response += "Connection: Closed\n";
-        response += "Content-Type: text/html; charset=iso-8859-1\n";
+        requestStream >> method;
+        if (method != "GET" && method != "HEAD")
+        {
+            LOGGER() << "Unsupported method: '" << method << "'" << std::endl;
+            return false;
+        }
 
+        requestStream >> path;
+        if (path == "/")
+        {
+            path = "/index.html";
+        }
+        path = _folder + path;
 
-        //std::cout << response << std::endl;
+        requestStream >> version;
+        if (version != "HTTP/1.1")
+        {
+            LOGGER() << "Unsupported HTTP version: '" << version << "'" << std::endl;
+            return false;
+        }
+
+        //LOGGER() << "Method: '" << method << "'" << std::endl;
+        //LOGGER() << "Path: '" << path << "'" << std::endl;
+        //LOGGER() << "Version: '" << version << "'" << std::endl;
+
+        auto methodHandler = MethodHandlerFactory::getMethodHandler(method);
+        auto response = methodHandler->handleMethod(path);
+
         _socket->write(response);
 
         return true;
