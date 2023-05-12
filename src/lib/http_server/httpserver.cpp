@@ -1,4 +1,4 @@
-#include <filesystem>
+#include <boost/filesystem.hpp>
 #include <stdexcept>
 #include "httpserver.hpp"
 #include "logger.hpp"
@@ -13,7 +13,7 @@ HTTPServer::HTTPServer(int port, std::string& folder):
     // handling request tasks is an I/O bounded task, so the threadpool could be created with more logical threads than number of hardware threads
     _threadPool(std::make_unique<threadpool::ThreadPool>(std::thread::hardware_concurrency() * 4))
 {
-    if (!std::filesystem::exists(_folder))
+    if (!boost::filesystem::exists(_folder))
     {
         throw HTTPServerException("Folder '" + _folder + "' does not exist!");
     }

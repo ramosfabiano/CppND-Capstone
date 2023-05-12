@@ -2,7 +2,7 @@
 #include <ctime>
 #include <iostream>
 #include <string>
-#include <filesystem>
+#include <boost/filesystem.hpp>
 #include "logger.hpp"
 #include "headmethodhandler.hpp"
 
@@ -22,12 +22,10 @@ std::string HEADMethodHandler::handleMethod(std::string& resourceURI) const
 
     try
     {
-        std::filesystem::path filePath{resourcePath};
-
         response += "HTTP/1.1 200 OK\n";
         response += std::string("Date: ") + currentDateTimeAsString() + std::string(" GMT\n");
         response += "Server: Simple HTTP Server Capstone\n";
-        response += "Content-Length: " + std::to_string(std::filesystem::file_size(filePath)) + "\n";
+        response += "Content-Length: " + std::to_string(boost::filesystem::file_size(resourcePath)) + "\n";
         response += "Connection: Closed\n";
     }
     catch(...)

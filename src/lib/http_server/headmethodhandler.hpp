@@ -3,7 +3,6 @@
 #include <chrono>
 #include <ctime>
 #include <string>
-#include <filesystem>
 #include "methodhandler.hpp"
 
 namespace http_server
