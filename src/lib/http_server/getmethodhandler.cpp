@@ -92,7 +92,13 @@ bool GETMethodHandler::hasFileExtension(std::string& resourcePath, std::string e
         return std::tolower(chr);
     });
 
-    return lowerCasePath.ends_with(lowerCaseExt);
+
+    if (lowerCaseExt.length() > lowerCasePath.length())
+    {
+        return false;
+    }
+    
+    return (0 == lowerCasePath.compare (lowerCasePath.length() - lowerCaseExt.length(), lowerCaseExt.length(), lowerCaseExt));
 }
 
 std::string GETMethodHandler::getResourceContents(std::string& resourcePath)

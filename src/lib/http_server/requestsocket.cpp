@@ -57,7 +57,10 @@ bool RequestSocket::peek(int timeOutSec) const
 
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
-    struct timeval timeout{0};
+    struct timeval timeout
+    {
+        0
+    };
     FD_ZERO(&set);                       // NOLINT
     FD_SET(_socketFileDescriptor, &set); // NOLINT
     timeout.tv_sec = timeOutSec;

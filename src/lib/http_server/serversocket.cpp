@@ -39,7 +39,10 @@ ServerSocket::ServerSocket(int port) :
     }
 
     // bind to port
-    struct sockaddr_in address{0};
+    struct sockaddr_in address
+    {
+        0
+    };
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
     address.sin_port = htons(_port);
@@ -99,7 +102,10 @@ bool ServerSocket::peekConnection(int timeOutSec) const
 
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
     fd_set set;
-    struct timeval timeout{0};
+    struct timeval timeout
+    {
+        0
+    };
     FD_ZERO(&set);                        // NOLINT
     FD_SET(_socketFileDescriptor, &set);  // NOLINT
     timeout.tv_sec = timeOutSec;
@@ -121,7 +127,10 @@ std::unique_ptr<RequestSocket> ServerSocket::acceptConnection() const
     }
 
     // NOLINTBEGIN    (disabling clang-tidy warnings for the C-style block below)
-    struct sockaddr_in address{0}; 
+    struct sockaddr_in address
+    {
+        0
+    };
     int addrlen = sizeof(address);
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
