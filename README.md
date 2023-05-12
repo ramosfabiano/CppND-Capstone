@@ -6,7 +6,7 @@ For the capstone, I have decided to implement a (simple) HTTP server.  An HTTP s
 
 ## Overview
 
-Of course, implementing a full-fledged HTTP server from scratch would be too big of challenge and would extend far beyond the purpose of this capstone. 
+Of course, implementing a full-fledged HTTP server from scratch would be too big of a challenge and would extend far beyond the purpose of this capstone. 
 
 So, for this course project, we have narrowed down our scope as to implement a basic HTTP server with the minimum set of capabilities enough to serve a static website using HTTP/1.1. Only the HTTP GET and HEAD methods are supported.
 
