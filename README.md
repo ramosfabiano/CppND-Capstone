@@ -79,33 +79,33 @@ These are the rubric items addressed by this project:
 
 **Loops, Functions, I/O**
 - [x] The project demonstrates an understanding of C++ functions and control structures.
-- [x] The project reads data from a file and process the data, or the program writes data to a file. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/getmethodhandler.cpp#L100)
-- [x] The project accepts user input and processes the input. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/app/main.cpp#L37)
+- [x] The project reads data from a file and process the data, or the program writes data to a file. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/getmethodhandler.cpp#L100)
+- [x] The project accepts user input and processes the input. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/app/main.cpp#L37)
 
 **Object Oriented Programming**
 - [x] The project uses Object Oriented Programming techniques. 
 - [x] Classes use appropriate access specifiers for class members.
-- [x] Class constructors utilize member initialization lists. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L10)
-- [x] Classes abstract implementation details from their interfaces. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/methodhandler.hpp#L24)
+- [x] Class constructors utilize member initialization lists. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L10)
+- [x] Classes abstract implementation details from their interfaces. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/methodhandler.hpp#L24)
 - [x] Classes encapsulate behavior. 
 - [x] Classes follow an appropriate inheritance hierarchy. 
 - [ ] Overloaded functions allow the same function to operate on different parameters.
-- [x] Derived class functions override virtual base class functions. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/headmethodhandler.hpp#L25)
-- [x] Templates generalize functions in the project. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/logger/logger.hpp#L39)
+- [x] Derived class functions override virtual base class functions. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/headmethodhandler.hpp#L25)
+- [x] Templates generalize functions in the project. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/logger/logger.hpp#L39)
 
 **Memory Management**
-- [x] The project makes use of references in function declarations. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/requesthandler.cpp#L15)
-- [x] The project uses destructors appropriately. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/methodhandler.hpp#L22)
-- [x] The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/serversocket.cpp#L15)
-- [x] The project follows the Rule of 5. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/requestsocket.hpp#L26)
-- [x] The project uses move semantics to move data, instead of copying it, where possible. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L66)
-- [x] The project uses smart pointers instead of raw pointers. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L66)
+- [x] The project makes use of references in function declarations. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/requesthandler.cpp#L15)
+- [x] The project uses destructors appropriately. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/methodhandler.hpp#L22)
+- [x] The project uses scope / Resource Acquisition Is Initialization (RAII) where appropriate. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/serversocket.cpp#L15)
+- [x] The project follows the Rule of 5. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/requestsocket.hpp#L26)
+- [x] The project uses move semantics to move data, instead of copying it, where possible. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L66)
+- [x] The project uses smart pointers instead of raw pointers. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L66)
 
 **Concurrency**
-- [x] The project uses multithreading. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/threadpool/threadpool.hpp#L27)
-- [x] A promise and future is used in the project. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L36)
-- [x] A mutex or lock is used in the project. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L38)
-- [x] A condition variable is used in the project. [Example here.](https://github.com/pragmaerror/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/threadpool/threadpool.hpp#L110)
+- [x] The project uses multithreading. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/threadpool/threadpool.hpp#L27)
+- [x] A promise and future is used in the project. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/http_server/httpserver.cpp#L36)
+- [x] A mutex or lock is used in the project. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/cb81708dc54448534d03638e35b77e54242a2aca/src/lib/logger/logger.hpp#L38)
+- [x] A condition variable is used in the project. [Example here.](https://github.com/ramosfabiano/CppND-Capstone/blob/17496697a881dc024034d286fc9cf99855903b32/src/lib/threadpool/threadpool.hpp#L110)
 
 
 
